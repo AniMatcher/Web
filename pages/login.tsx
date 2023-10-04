@@ -1,3 +1,4 @@
+import { Button } from '@chakra-ui/react';
 import { useSession, signIn, signOut } from 'next-auth/react';
 
 export default function IndexPage() {
@@ -7,14 +8,20 @@ export default function IndexPage() {
     return (
       <div>
         <h1> hi {data.user.name}</h1>
-        <img src={data.user.image} alt={data.user.name + ' photo'} />
-        <button onClick={signOut}>sign out</button>
+        <img src={data.user.image} alt={`${data.user.name} photo`} />
+        <Button
+          onClick={() => {
+            signOut();
+          }}
+        >
+          sign out
+        </Button>
       </div>
     );
   }
   return (
     <div>
-      <button onClick={() => signIn('google')}>sign in with gooogle</button>
+      <Button onClick={() => signIn('google')}>sign in with gooogle</Button>
     </div>
   );
 }
