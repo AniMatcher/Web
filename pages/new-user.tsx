@@ -13,7 +13,7 @@ import {
 import { createHash } from 'crypto';
 import { Formik, Field } from 'formik';
 import { useSearchParams } from 'next/navigation';
-import { useSession, signIn, signOut } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
 
 import Layout from '../components/layout';
 import supabase from '../utils/supabase';
