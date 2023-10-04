@@ -38,8 +38,7 @@ export default function App() {
         <Box bg="gray.50" p={6} rounded="md" w="80rem">
           <Formik
             initialValues={{
-              email: '',
-              password: '',
+              email: data.user?.email,
               genderSelect: 'Select',
               malepref: false,
               femalepref: false,

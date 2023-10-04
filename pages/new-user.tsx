@@ -54,7 +54,7 @@ export default function IndexPage() {
                 duration: 9000,
                 isClosable: true,
               });
-              signIn('google', { callbackUrl: '/profile' });
+              signIn('google', { callbackUrl: '/new-profile' });
             } else {
               toast({
                 title: 'ERROR Occurred',
