@@ -113,7 +113,7 @@ export default function IndexPage() {
                         .from('auth')
                         .select('username')
                         .eq('username', value);
-                      if (data?.length >= 1) {
+                      if ((data?.length || 0) >= 1) {
                         error =
                           'username already picked, please chose a new one';
                       }

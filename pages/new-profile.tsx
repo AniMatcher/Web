@@ -9,9 +9,7 @@ import {
   FormControl,
   FormLabel,
   FormErrorMessage,
-  Text,
   Textarea,
-  Input,
   VStack,
   Select,
   Heading,
@@ -80,7 +78,7 @@ export default function App() {
                   genderM = 'OOP';
                   break;
               }
-              const post_val = {
+              const postVal = {
                 sex_pref: String.fromCharCode(valprefnum),
                 gender: genderM,
                 email: values.email,
@@ -95,7 +93,7 @@ export default function App() {
                   headers: {
                     'Content-Type': 'application/json',
                   },
-                  body: JSON.stringify(post_val),
+                  body: JSON.stringify(postVal),
                 }
               );
               if (resp.status === 200) {
