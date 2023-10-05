@@ -38,17 +38,23 @@ export default function IndexPage() {
             .update(values.password)
             .digest('hex');
           if (search) {
-            const { data, error } = await supabase
-              .from('auth')
-              .insert({
-                username: values.username,
-                email: search,
-                password_hash: hash,
-              })
-              .select();
-            if (data?.length >= 1) {
+            const resp = await fetch(
+              `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/`,
+              {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  email: search.toString(),
+                  username: values.username,
+                  password_hash: hash,
+                }),
+              }
+            );
+            if (resp.status === 200) {
               toast({
-                title: `Account created ${data[0].username}.`,
+                title: `Account created!`,
                 description: "We've created your account for you.",
                 status: 'success',
                 duration: 9000,
@@ -58,7 +64,7 @@ export default function IndexPage() {
             } else {
               toast({
                 title: 'ERROR Occurred',
-                description: error?.message,
+                description: resp.statusText,
                 status: 'error',
                 duration: 9000,
                 isClosable: true,
