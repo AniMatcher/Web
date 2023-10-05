@@ -1,52 +1,88 @@
 //display existing profile
 import * as React from 'react'
-import { AspectRatio, Box, Flex, Spacer, Image } from '@chakra-ui/react'
+import { AspectRatio, Box, Flex, Spacer, Image, Heading, Button } from '@chakra-ui/react'
 import { useSession } from "next-auth/react"
+import { authOptions } from "./api/auth/[...nextauth]"
+import type { InferGetServerSidePropsType, GetServerSideProps } from 'next'
+import { getServerSession } from "next-auth/next"
 import { useState } from 'react'
 import { useEffect } from 'react'
+import Layout from '../components/layout'
+import { useRouter } from 'next/navigation';
 
 
 //user, email, sexual pref, 10 animes you like, genre, profile picture, gender, Recommended Anime
-const Page = () => {
+const Page = ( { profile }: {profile: ProfileProps}) => {
+    console.log(profile);
     return (
         <Flex flexDirection={"column"}>
             <Box>
-                <Image
-
-                />
-                <h1>props.</h1>
+                <h1>{profile.username}</h1>
             </Box>
 
             <h1>BOOOHOOOO</h1>
         </Flex>
       )
 }
-const profile = () => {
-    const { data , status } = useSession();
-    const [profileData, SetProfileData] = useState(null);
 
-    useEffect(() => {
-            const getData = async ()=>{
-                const url = 'http://127.0.0.1:5000/profile/email/philip.yunfan.yi@gmail.com';
-                const query = await fetch(url, {method:'GET', headers:{
-                    'Access-Control-Allow-Origin': '*'
-                }});
-                const response = await query.json();
-                console.log("response from API: ", response);
-                if (response.status === 200) {
-                    const json = await response.json()
-                    SetProfileData(json);
+type ProfileProps = {
+    id: number;
+    uuid: string;
+    username: string;
+    gender: string;
+    sex_pref: string;
+    genre: string;
+    bio: string;
+};
+
+export const getServerSideProps = (async (context) => {
+    const session = await getServerSession(
+        context.req,
+        context.res,
+        authOptions
+      );
+
+      if (session) {    
+        const url = `http://127.0.0.1:5000/profile/email/${session.user?.email}`;
+        const query = await fetch(url, {method:'GET', headers:{
+            'Access-Control-Allow-Origin': '*'
+        }});
+        if (query.status === 200) {
+            const response: ProfileProps = await query.json();
+            return { props: { response } }
+        } else {
+            return {
+                redirect: {
+                    permanent: false,
+                    destination: "/"
                 }
             }
-            getData();
-    }, [profileData]);
+        }
+        
+      } else {
+        console.log("NO SESSION????")
+        return {
+            redirect: {
+                permanent: false,
+                destination: "/login"
+            }
+        }
+      }
+}) satisfies GetServerSideProps<{
+    response: ProfileProps
+  }>
 
-    if (status === "authenticated") {
-        console.log(profileData);
-        return <Page />
-    }
-    return <a href="/api/auth/signin">Sign in</a>
+const profile = ({response} : InferGetServerSidePropsType<typeof getServerSideProps>) => {
+    const profile_data : ProfileProps = response;
+
+    return (
+                <Page profile={profile_data} />
+        );
 
 }
 
+
+
 export default profile
+
+

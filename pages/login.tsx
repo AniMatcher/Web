@@ -9,10 +9,10 @@ export default function IndexPage() {
     return (
       <div>
         <h1> hi {data?.user?.name || 'NO Name'}</h1>
-        <Image
+        {/* <Image
           src={data?.user?.image || 'No Image'}
           alt={`${data?.user?.name || 'NO Name'} photo`}
-        />
+        /> */}
         <Button
           onClick={() => {
             signOut();
