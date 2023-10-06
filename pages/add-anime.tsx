@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+
 'use client';
 
 import {
@@ -50,12 +52,13 @@ export default function Page() {
               my={5}
               size="lg"
               onChange={async (e) => {
-                const { data, error } = await supabase.rpc(
+                const { data: res, error } = await supabase.rpc(
+                  // @ts-ignore
                   'anime_autocomplete_search',
                   { query: e.target.value }
                 );
                 if (!error) {
-                  SetAutoCompleteRes(data);
+                  SetAutoCompleteRes(res);
                 }
               }}
             />
@@ -109,7 +112,7 @@ export default function Page() {
                       isClosable: true,
                     });
                   } else {
-                    const post_data = {
+                    const postData = {
                       email: data?.user?.email || 'error',
                       animes: highlightAnime.map((elm) => elm.aid),
                     };
@@ -121,7 +124,7 @@ export default function Page() {
                           'Access-Control-Allow-Origin': '*',
                           'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify(post_data),
+                        body: JSON.stringify(postData),
                       }
                     );
                     if (resp.status === 200) {
