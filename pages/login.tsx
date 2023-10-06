@@ -1,6 +1,7 @@
-import { AspectRatio, Box, Flex, Button, Text, Heading} from '@chakra-ui/react'
-import { FcGoogle } from 'react-icons/fc';
+import { Flex, Button, Heading } from '@chakra-ui/react';
 import { useSession, signIn, signOut } from 'next-auth/react';
+import { FcGoogle } from 'react-icons/fc';
+
 import Layout from '../components/layout';
 
 export default function IndexPage() {
@@ -9,28 +10,56 @@ export default function IndexPage() {
   if (status === 'authenticated') {
     return (
       <Layout>
-      <Flex   h="400px" flexDirection='column' justifyContent='center' alignItems='center'>
-        <Flex rounded="lg" bg="gray.200" p={10} flexDirection='column' alignItems='center' >
-          <Heading my={4} > Welcome {data?.user?.name || 'NO Name'}</Heading>
-          <Button
-            colorScheme='purple'
-            onClick={() => {
-              signOut();
-            }}
+        <Flex
+          h="400px"
+          flexDirection="column"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Flex
+            rounded="lg"
+            bg="gray.200"
+            p={10}
+            flexDirection="column"
+            alignItems="center"
           >
-            Sign Out
-          </Button>
+            <Heading my={4}> Welcome {data?.user?.name || 'NO Name'}</Heading>
+            <Button
+              colorScheme="purple"
+              onClick={() => {
+                signOut();
+              }}
+            >
+              Sign Out
+            </Button>
+          </Flex>
         </Flex>
-      </Flex>
       </Layout>
     );
   }
   return (
     <Layout>
-      <Flex   h="400px" flexDirection='column' justifyContent='center' alignItems='center'>
-        <Flex rounded="lg" bg="gray.200" p={10} flexDirection='column' alignItems='center' >
+      <Flex
+        h="400px"
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Flex
+          rounded="lg"
+          bg="gray.200"
+          p={10}
+          flexDirection="column"
+          alignItems="center"
+        >
           <Heading>Login</Heading>
-        <Button my={5} leftIcon={<FcGoogle />} onClick={() => signIn('google')}>Sign In with Google</Button>
+          <Button
+            my={5}
+            leftIcon={<FcGoogle />}
+            onClick={() => signIn('google')}
+          >
+            Sign In with Google
+          </Button>
         </Flex>
       </Flex>
     </Layout>

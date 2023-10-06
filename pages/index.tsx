@@ -1,7 +1,7 @@
 import { Heading, Box, Button } from '@chakra-ui/react';
+import Link from 'next/link';
 
 import Layout from '../components/layout';
-import Link from 'next/link';
 
 export default function Home() {
   return (
@@ -9,7 +9,9 @@ export default function Home() {
       <Box textAlign="center">
         <Heading>Welcome to AniMatcher</Heading>
         <Link href="/login">
-          <Button my={10} size="lg" colorScheme='purple'>Login</Button>
+          <Button my={10} size="lg" colorScheme="purple">
+            Login
+          </Button>
         </Link>
       </Box>
     </Layout>
