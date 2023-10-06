@@ -128,7 +128,7 @@ export const getServerSideProps = (async (context) => {
   const session = await getServerSession(context.req, context.res, authOptions);
 
   if (session) {
-    const url = `http://127.0.0.1:5000/profile/email/${session.user?.email}`;
+    const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/email/${session.user?.email}`;
     const query = await fetch(url, {
       method: 'GET',
       headers: {

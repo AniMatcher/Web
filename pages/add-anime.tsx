@@ -132,7 +132,7 @@ export default function Page() {
                         title: `Profile created!`,
                         description: "We've created your profile for you.",
                         status: 'success',
-                        duration: 9000,
+                        duration: 3000,
                         isClosable: true,
                       });
                       push('/profile');
