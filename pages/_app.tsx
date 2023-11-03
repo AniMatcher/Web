@@ -2,9 +2,25 @@
 
 'use client';
 
-import { ChakraProvider } from '@chakra-ui/react';
+import '@fontsource-variable/outfit';
+import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import type { AppProps } from 'next/app';
 import { SessionProvider } from 'next-auth/react';
+
+const theme = extendTheme({
+  colors: {
+    brand: {
+      100: '#FF9F1C',
+      200: '#FFBF69',
+      800: '#CBF3F0',
+      900: '#2EC4B6',
+    },
+  },
+  fonts: {
+    heading: `'Outfit Variable', sans-serif`,
+    body: `'Raleway', sans-serif`,
+  },
+});
 
 function Providers({
   Component,
@@ -12,7 +28,7 @@ function Providers({
 }: AppProps) {
   return (
     <SessionProvider session={session}>
-      <ChakraProvider>
+      <ChakraProvider theme={theme}>
         <Component {...pageProps} />
       </ChakraProvider>
     </SessionProvider>

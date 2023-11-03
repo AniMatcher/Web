@@ -1,19 +1,25 @@
-import { Heading, Box, Button } from '@chakra-ui/react';
+import { Heading, Box, Button, Spinner } from '@chakra-ui/react';
 import Link from 'next/link';
+import { useSession, signIn, signOut } from 'next-auth/react';
 
 import Layout from '../components/layout';
 
 export default function Home() {
+  const { data, status } = useSession();
+  if (status === 'loading') {
+    return (
+      <Layout>
+        <Spinner size="lg" />
+      </Layout>
+    );
+  }
   return (
-    <Layout>
-      <Box textAlign="center">
-        <Heading>Welcome to AniMatcher</Heading>
-        <Link href="/login">
-          <Button my={10} size="lg" colorScheme="purple">
-            Login
-          </Button>
-        </Link>
-      </Box>
-    </Layout>
+    <Box h="100vh" backgroundImage="/cute-anime-couple.jpg" textAlign="center">
+      <Layout>
+        <Box h="100vh" />
+        <Box h="100vh" bg="red" />
+        <Box h="100vh" bg="blue" />
+      </Layout>
+    </Box>
   );
 }
