@@ -18,7 +18,7 @@ const theme = extendTheme({
   },
   fonts: {
     heading: `'Outfit Variable', sans-serif`,
-    body: `'Raleway', sans-serif`,
+    body: `'Outfit Variable', sans-serif`,
   },
 });
 

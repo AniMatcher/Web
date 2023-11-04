@@ -1,4 +1,4 @@
-import { Heading, Box, Spinner, Text } from '@chakra-ui/react';
+import { Heading, Box, Spinner, Text, Flex } from '@chakra-ui/react';
 import { useSession } from 'next-auth/react';
 
 import Layout from '../components/layout';
@@ -8,35 +8,54 @@ export default function Home() {
   if (status === 'loading') {
     return (
       <Layout>
-        <Spinner size="lg" />
+        <Flex align="center" justify="center">
+          <Flex align="center" justify="center">
+            <Spinner size="lg" />
+          </Flex>
+        </Flex>
       </Layout>
     );
   }
   return (
-    <Box h="100vh" backgroundImage="/cute-anime-couple.jpg" textAlign="center">
+    <Box
+      height="100vh"
+      backgroundImage="/cute-anime-couple.jpg"
+      objectFit="cover"
+      objectPosition="center"
+      backgroundPosition="center center"
+    >
       <Layout>
-        <Box textAlign="left" h="100vh">
-          <Box
+        <Box
+          className="back"
+          position="absolute"
+          zIndex="0"
+          top="0"
+          display="flex"
+          alignContent="center"
+          w="100vw"
+          h="100vh"
+        >
+          <Flex
             bottom={0}
             p={{ base: 0, md: 6, lg: 10 }}
             width={{ base: '100%', md: '50%', lg: '45%', xl: '50%' }}
             left={0}
-            marginY="50vh"
             justifyContent="center"
             textAlign={{ base: 'left', md: 'left' }}
+            flexDir="column"
             alignContent={{ base: 'center', md: 'center' }}
           >
             <Heading ml={4} size={{ base: '2xl', md: '4xl' }} color="white">
               Find your ハニー{' '}
             </Heading>
-            <Text ml={4} mt={3} maxW="80%" fontSize="xl" color="white">
-              AniMatcher Will help you find love based on the biggest green
-              flag: anime
+            <Text ml={4} mt={3} maxW="80%" fontSize="3xl" color="white">
+              Find love from what you love:
             </Text>
-          </Box>
+            <Heading ml={4} size={{ base: 'xl', md: '3xl' }} color="white">
+              Anime
+            </Heading>
+          </Flex>
         </Box>
-        <Box h="100vh" bg="red" />
-        <Box h="100vh" bg="blue" />
       </Layout>
     </Box>
   );
