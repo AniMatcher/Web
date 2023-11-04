@@ -1,8 +1,12 @@
 import { Flex, Button, Heading } from '@chakra-ui/react';
+import type { GetServerSideProps } from 'next/types';
+import { getServerSession } from 'next-auth/next';
 import { useSession, signIn, signOut } from 'next-auth/react';
 import { FcGoogle } from 'react-icons/fc';
 
 import Layout from '../components/layout';
+
+import { authOptions } from './api/auth/[...nextauth]';
 
 export default function IndexPage() {
   const { data, status } = useSession();
@@ -65,3 +69,25 @@ export default function IndexPage() {
     </Layout>
   );
 }
+
+type LoginProps = {
+  login: boolean;
+};
+
+export const getServerSideProps = async (context) => {
+  const session = await getServerSession(context.req, context.res, authOptions);
+
+  if (session) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/profile',
+      },
+    };
+  }
+  return {
+    props: {
+      login: false,
+    },
+  };
+};

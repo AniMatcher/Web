@@ -1,13 +1,15 @@
+/* eslint-disable no-nested-ternary */
+
+'use client';
+
 import {
   Heading,
   Box,
   Button,
   Spinner,
-  chakra,
   Flex,
   VStack,
   IconButton,
-  CloseButton,
   Collapse,
   DrawerFooter,
   HStack,
@@ -21,12 +23,12 @@ import {
   Icon,
 } from '@chakra-ui/react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useSession, signIn, signOut } from 'next-auth/react';
 import React, { useState, useEffect } from 'react';
-import { AiFillHome, AiOutlineInbox, AiOutlineMenu } from 'react-icons/ai';
+import { AiOutlineMenu } from 'react-icons/ai';
 import { BsArrowThroughHeartFill } from 'react-icons/bs';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
-import { FcGoogle } from 'react-icons/fc';
 
 type MyDrawerProps = {
   isOpen: boolean;
@@ -36,6 +38,7 @@ type MyDrawerProps = {
 function MyDrawer({ isOpen, onClose }: MyDrawerProps) {
   const { data: session, status } = useSession();
   const [show, setShow] = React.useState(false);
+
   const handleToggle = () => {
     setShow(!show);
   };
@@ -105,18 +108,24 @@ function MyDrawer({ isOpen, onClose }: MyDrawerProps) {
 
 export default function Header() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { data, status } = useSession();
+  const { status } = useSession();
+  const path = usePathname();
   const [NavBarScrolled, setNavbar] = useState(false);
-
   useEffect(() => {
-    window.addEventListener('scroll', () => {
-      if (window.scrollY >= window.innerHeight) {
-        setNavbar(true);
-      } else {
-        setNavbar(false);
-      }
-    });
-  }, [NavBarScrolled]);
+    if (path === '/') {
+      window.addEventListener('scroll', () => {
+        if (path === '/') {
+          if (window.scrollY >= window.innerHeight) {
+            setNavbar(true);
+          } else {
+            setNavbar(false);
+          }
+        }
+      });
+    } else {
+      setNavbar(true);
+    }
+  }, [NavBarScrolled, path]);
 
   return (
     <>

@@ -1,5 +1,13 @@
 // display existing profile
-import { Flex, Image, Divider, Text, Card, CardBody } from '@chakra-ui/react';
+import {
+  Flex,
+  Image,
+  Divider,
+  Text,
+  Card,
+  CardBody,
+  Tooltip,
+} from '@chakra-ui/react';
 import type { InferGetServerSidePropsType, GetServerSideProps } from 'next';
 import { getServerSession } from 'next-auth/next';
 import { AiOutlineUser } from 'react-icons/ai';
@@ -87,13 +95,18 @@ const Page = ({ profile }: { profile: ProfileProps }) => {
             justifyContent="center"
             alignContent="center"
           >
-            <Image
-              src="horimiya.png"
-              alt="horimiya"
-              width={imgSize}
-              height={imgSize}
-              margin="5px"
-            />
+            {Object.keys(profile.image_urls).map((k: string) => (
+              <Tooltip label={k} aria-label="A tooltip">
+                <Image
+                  key={k}
+                  src={profile.image_urls[k]}
+                  alt={k}
+                  width={imgSize}
+                  height={imgSize}
+                  margin="5px"
+                />
+              </Tooltip>
+            ))}
             <Image
               src="cowboybebop.png"
               alt="cowboybebop"
@@ -130,6 +143,9 @@ type ProfileProps = {
   sex_pref: string;
   genre: string;
   bio: string;
+  image_urls: {
+    [key: string]: string;
+  };
 };
 
 export const getServerSideProps = (async (context) => {
@@ -143,7 +159,6 @@ export const getServerSideProps = (async (context) => {
         'Access-Control-Allow-Origin': '*',
       },
     });
-    console.log(query);
     if (query.status === 200) {
       const response: ProfileProps = await query.json();
       return { props: { response } };
