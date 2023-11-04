@@ -1,5 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Flex, Button, Heading } from '@chakra-ui/react';
-import type { GetServerSideProps } from 'next/types';
 import { getServerSession } from 'next-auth/next';
 import { useSession, signIn, signOut } from 'next-auth/react';
 import { FcGoogle } from 'react-icons/fc';
@@ -70,11 +70,7 @@ export default function IndexPage() {
   );
 }
 
-type LoginProps = {
-  login: boolean;
-};
-
-export const getServerSideProps = async (context) => {
+export const getServerSideProps = async (context: any) => {
   const session = await getServerSession(context.req, context.res, authOptions);
 
   if (session) {
