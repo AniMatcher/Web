@@ -2,6 +2,7 @@ import { Heading, Box, Spinner, Text, Flex } from '@chakra-ui/react';
 import { useSession } from 'next-auth/react';
 
 import Layout from '../components/layout';
+import Swipes from '../components/swipes';
 
 export default function Home() {
   const { status } = useSession();
@@ -16,12 +17,17 @@ export default function Home() {
       </Layout>
     );
   }
+  if (status === 'authenticated') {
+    return (
+      <Layout>
+        <Swipes />
+      </Layout>
+    );
+  }
   return (
     <Box
       height="100vh"
       backgroundImage="/cute-anime-couple.jpg"
-      objectFit="cover"
-      objectPosition="center"
       backgroundPosition="center center"
     >
       <Layout>
