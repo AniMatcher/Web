@@ -60,7 +60,7 @@ export default function IndexPage() {
           <Button
             my={5}
             leftIcon={<FcGoogle />}
-            onClick={() => signIn('google')}
+            onClick={() => signIn('google', { callbackUrl: '/new-user' })}
           >
             Sign In with Google
           </Button>

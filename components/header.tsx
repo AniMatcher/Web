@@ -153,8 +153,8 @@ export default function Header() {
           </Heading>
         </Flex>
         <HStack
-          display={{ base: 'none', lg: 'flex' }}
-          width={{ base: 'full', lg: 'auto' }}
+          display={{ base: 'none', md: 'flex' }}
+          width={{ base: 'full', md: 'auto' }}
           alignItems="center"
           m={4}
           spacing={4}
@@ -174,7 +174,11 @@ export default function Header() {
               </Button>
             </>
           ) : (
-            <Button size="lg" bg="brand.800" onClick={() => signIn('google')}>
+            <Button
+              size="lg"
+              bg="brand.800"
+              onClick={() => signIn('google', { callbackUrl: '/new-user' })}
+            >
               Sign In
             </Button>
           )}

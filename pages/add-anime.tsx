@@ -97,7 +97,7 @@ export default function Page() {
                 onClick={() => SetHighlightAnime([])}
                 ml={4}
                 size="lg"
-                colorScheme="purple"
+                bg="brand.800"
               >
                 Clear
               </Button>
@@ -113,6 +113,7 @@ export default function Page() {
                     });
                   } else {
                     const postData = {
+                      uuid: data.uuid,
                       email: data?.user?.email || 'error',
                       animes: highlightAnime.map((elm) => elm.aid),
                     };
@@ -149,7 +150,7 @@ export default function Page() {
                 }}
                 ml={4}
                 size="lg"
-                colorScheme="purple"
+                bg="brand.900"
               >
                 Submit
               </Button>
@@ -189,6 +190,7 @@ export default function Page() {
                     </Box>
                     <Spacer />
                     <Button
+                      bg="brand.200"
                       onClick={() => {
                         SetHighlightAnime(
                           highlightAnime.filter((item) => item !== elm)

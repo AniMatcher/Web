@@ -57,8 +57,8 @@ export default function Home() {
             <Text ml={4} mt={3} maxW="80%" fontSize="3xl" color="white">
               Find love from what you love:
             </Text>
-            <Heading ml={4} size={{ base: 'xl', md: '3xl' }} color="white">
-              Anime
+            <Heading ml={4} size={{ base: 'xl', md: '2xl' }} color="pink">
+              Anime!
             </Heading>
           </Flex>
         </Box>

@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import NextAuth from 'next-auth';
 import type { NextAuthOptions as NextAuthConfig } from 'next-auth';
@@ -16,7 +17,7 @@ export const authOptions = {
     signIn: '/login',
     signOut: '/auth/signout',
     error: '/auth/error', // Error code passed in query string as ?error=
-    newUser: '/profile', // New users will be directed here on first sign in (leave the property out if not of interest)
+    newUser: '/new-user', // New users will be directed here on first sign in (leave the property out if not of interest)
   },
 
   callbacks: {
@@ -31,16 +32,32 @@ export const authOptions = {
           return false;
         }
 
-        if (data.length >= 1) {
-          return true;
-        }
+        // if (data.length >= 1) {
+        //   return true;
+        // }
         // TODO send them to onboarding
-        return `/new-user?email=${user.email}`;
+        // return `/new-user?email=${user.email}`;
       }
       return true;
     },
-    async jwt({ token, user, account, profile }) {
-      return Promise.resolve(token);
+    async jwt({ token, user, account, profile, isNewUser }) {
+      const { data, error } = await supabase
+        .from('auth')
+        .select('uuid, email')
+        .eq('email', token.email || 'error');
+
+      if (error || data.length < 1) {
+        return token;
+      }
+      token.uuid = data[0].uuid;
+      return token;
+    },
+
+    async session({ session, user, token }) {
+      if (session) {
+        session.uuid = token.uuid;
+      }
+      return session;
     },
   },
 } satisfies NextAuthConfig;
