@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 'use client';
 
 import {
@@ -13,10 +15,9 @@ import {
 } from '@chakra-ui/react';
 import { createHash } from 'crypto';
 import { Formik, Field } from 'formik';
-import type { InferGetServerSidePropsType, GetServerSideProps } from 'next';
+import type { InferGetServerSidePropsType } from 'next';
 import { useRouter } from 'next/navigation';
 import { getServerSession } from 'next-auth/next';
-import { signIn } from 'next-auth/react';
 
 import Layout from '../components/layout';
 import supabase from '../utils/supabase';
@@ -113,11 +114,11 @@ function IndexPage({ data }: { data: NewUserProps }) {
                       if (value.length < 6) {
                         error = 'Username must contain at least 6 characters';
                       } else {
-                        const { data } = await supabase
+                        const { data: supadata } = await supabase
                           .from('auth')
                           .select('username')
                           .eq('username', value);
-                        if ((data?.length || 0) >= 1) {
+                        if ((supadata?.length || 0) >= 1) {
                           error =
                             'username already picked, please chose a new one';
                         }
@@ -164,9 +165,8 @@ type NewUserProps = {
   email: string;
 };
 
-export const getServerSideProps = async (context) => {
+export const getServerSideProps = async (context: any) => {
   const session = await getServerSession(context.req, context.res, authOptions);
-  console.log(session);
   if (session) {
     const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/uuid/${session.uuid}`;
     const query = await fetch(url, {
@@ -175,7 +175,6 @@ export const getServerSideProps = async (context) => {
         'Access-Control-Allow-Origin': '*',
       },
     });
-    console.log(query);
     if (query.status === 200) {
       return {
         redirect: {
