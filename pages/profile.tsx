@@ -57,7 +57,7 @@ const Page = ({ profile }: { profile: ProfileProps }) => {
                   mt={6}
                   flexDirection="row"
                   justifyContent="flex-start"
-                  alignContent="flex-end"
+                  alignItems="center"
                 >
                   <AiOutlineUser />
                   <Text colorScheme="blackAlpha" paddingLeft={1}>
