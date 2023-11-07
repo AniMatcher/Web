@@ -105,7 +105,17 @@ export default function Swipes() {
           )}
         </Flex>
         {prof.length > 0 && (
-          <Flex flexDirection="row" bottom="20px" gap="10">
+          <Flex
+            boxShadow="lg"
+            p="2"
+            pl="4"
+            pr="4"
+            bgColor="brand.200"
+            flexDirection="row"
+            bottom="20px"
+            gap="10"
+            rounded="3xl"
+          >
             <IconButton
               isRound
               aria-label="swipe-left"
@@ -114,7 +124,8 @@ export default function Swipes() {
               fontSize="3xl"
               color="rgb(108,222,171)"
               boxShadow="lg"
-              _hover={{ transform: 'scale(1.3)' }}
+              _hover={{ bgColor: 'gray.100', transform: 'scale(1.3)' }}
+              bgColor="gray.50"
             >
               swipe
             </IconButton>
@@ -126,7 +137,8 @@ export default function Swipes() {
               fontSize="2xl"
               color="red"
               boxShadow="lg"
-              _hover={{ transform: 'scale(1.3)' }}
+              _hover={{ bgColor: 'gray.100', transform: 'scale(1.3)' }}
+              bgColor="gray.50"
             >
               swipe
             </IconButton>
