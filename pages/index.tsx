@@ -1,11 +1,10 @@
-import { Heading, Box, Text, Flex } from '@chakra-ui/react';
+import { Heading, Box, Text, Flex, Spinner } from '@chakra-ui/react';
 import { useSession } from 'next-auth/react';
 
 import Layout from '../components/layout';
-import Swipes from '../components/swipes';
 
 export default function Home() {
-  const { data, status } = useSession();
+  const { status } = useSession();
   if (status === 'loading') {
     return (
       <Layout>
@@ -14,13 +13,6 @@ export default function Home() {
             <Spinner size="lg" />
           </Flex>
         </Flex>
-      </Layout>
-    );
-  }
-  if (status === 'authenticated') {
-    return (
-      <Layout>
-        <Swipes email={data.user?.email} />
       </Layout>
     );
   }

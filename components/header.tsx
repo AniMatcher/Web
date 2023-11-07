@@ -163,6 +163,11 @@ export default function Header() {
             <Spinner />
           ) : status === 'authenticated' ? (
             <>
+              <Link href="/swipes">
+                <Button size="lg" bg="pink.100">
+                  Start Matching
+                </Button>
+              </Link>
               <Link href="/profile">
                 <Button size="lg" bg="brand.200">
                   Profile
