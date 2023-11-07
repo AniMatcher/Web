@@ -60,7 +60,7 @@ function MyDrawer({ isOpen, onClose }: MyDrawerProps) {
             {!session ? (
               <Button
                 border="1px"
-                color="brand.800"
+                color="brand.100"
                 onClick={(e) => {
                   e.preventDefault();
                   signIn('google');
@@ -71,8 +71,7 @@ function MyDrawer({ isOpen, onClose }: MyDrawerProps) {
             ) : (
               <>
                 <Button bg="brand.800" onClick={handleToggle}>
-                  Profile
-                  {show ? <FaChevronUp /> : <FaChevronDown />}
+                  Profile&nbsp;{show ? <FaChevronUp /> : <FaChevronDown />}
                 </Button>
                 <Collapse in={show} animateOpacity>
                   <VStack spacing="30px">

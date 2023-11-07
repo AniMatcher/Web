@@ -1,29 +1,29 @@
 import { Heading, Box, Text, Flex } from '@chakra-ui/react';
-// import { useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 
 import Layout from '../components/layout';
-// import Swipes from '../components/swipes';
+import Swipes from '../components/swipes';
 
 export default function Home() {
-  // const { status } = useSession();
-  // if (status === 'loading') {
-  //   return (
-  //     <Layout>
-  //       <Flex align="center" justify="center">
-  //         <Flex align="center" justify="center">
-  //           <Spinner size="lg" />
-  //         </Flex>
-  //       </Flex>
-  //     </Layout>
-  //   );
-  // }
-  // if (status === 'authenticated') {
-  //   return (
-  //     <Layout>
-  //       <Swipes />
-  //     </Layout>
-  //   );
-  // }
+  const { data, status } = useSession();
+  if (status === 'loading') {
+    return (
+      <Layout>
+        <Flex align="center" justify="center">
+          <Flex align="center" justify="center">
+            <Spinner size="lg" />
+          </Flex>
+        </Flex>
+      </Layout>
+    );
+  }
+  if (status === 'authenticated') {
+    return (
+      <Layout>
+        <Swipes email={data.user?.email} />
+      </Layout>
+    );
+  }
   return (
     <Box
       height="100vh"
