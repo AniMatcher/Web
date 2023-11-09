@@ -1,15 +1,26 @@
 import { Box, Flex, Heading, Text } from '@chakra-ui/react';
+import type { AnimationControls } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 interface CardProps {
   image: string;
   username: string;
   bio: string;
   gender: string;
+  animation: AnimationControls;
 }
 
-export default function Card({ image, username, bio, gender }: CardProps) {
+const ChakraBox = motion(Box);
+
+export default function Card({
+  image,
+  username,
+  bio,
+  gender,
+  animation,
+}: CardProps) {
   return (
-    <Box
+    <ChakraBox
       w="360px"
       h="550px"
       position="absolute"
@@ -18,9 +29,9 @@ export default function Card({ image, username, bio, gender }: CardProps) {
       rounded="lg"
       bgColor="white"
       bgImage={image || 'aot.jpeg'}
-      objectPosition="center center"
       boxShadow="md"
       bgSize="cover"
+      animate={animation}
     >
       <Flex
         w="100%"
@@ -36,6 +47,6 @@ export default function Card({ image, username, bio, gender }: CardProps) {
         </Heading>
         <Text>{bio}</Text>
       </Flex>
-    </Box>
+    </ChakraBox>
   );
 }

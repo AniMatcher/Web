@@ -1,11 +1,12 @@
-import { Box, Button, Flex, IconButton, Spinner } from '@chakra-ui/react';
+import { Flex, IconButton, Spinner } from '@chakra-ui/react';
+import { useAnimation } from 'framer-motion';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import { AiFillHeart } from 'react-icons/ai';
 import { FaThumbsDown } from 'react-icons/fa';
 
-import Layout from '../components/layout';
 import Card from '../components/card';
+import Layout from '../components/layout';
 
 type Profile = {
   id: string;
@@ -31,6 +32,32 @@ type ProfileProps = {
 export default function Swipes() {
   const { data, status } = useSession();
   const [prof, setProfile] = useState<ProfileProps[]>([]); // Implement the swipe left and swipe right functions
+  const animationControl = useAnimation();
+  const [disabledButton, setDisabled] = useState(false);
+  const [current, setCurrent] = useState(0);
+
+  const tinderSlide = async (swipe: boolean) => {
+    console.log(current);
+    console.log(prof[current]);
+    animationControl
+      .start({
+        x: swipe ? -200 : 200,
+        rotate: swipe ? -45 : 45,
+        opacity: 0,
+        transition: { duration: 0.5 },
+      })
+      .then(() => {
+        animationControl.start({
+          x: 0,
+          opacity: 1,
+          rotate: 0,
+          transition: { duration: 0 },
+        });
+        if (current < 4) {
+          setCurrent(current + 1);
+        }
+      });
+  };
 
   const fetchMatches = async () => {
     if (status === 'authenticated') {
@@ -47,8 +74,10 @@ export default function Swipes() {
         );
         const profiles = await response.json();
 
-        const fetches = profiles.map((promise: Profile) =>
-          fetch(
+        const fetchedData: ProfileProps[] = [];
+
+        profiles.forEach(async (promise: Profile) => {
+          const res = await fetch(
             `${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/uuid/${promise.uuid}`,
             {
               method: 'GET',
@@ -57,14 +86,16 @@ export default function Swipes() {
                 'Content-Type': 'application/json',
               },
             }
-          ).then((res) => res.json())
-        );
-        const profs = await Promise.all(fetches);
-        const promises = profs.map((promise) => {
-          return promise;
+          );
+          const jsonData = await res.json();
+          fetchedData.push(jsonData);
         });
-        setProfile(promises); // Now we are setting the resolved values
-        console.log(profs);
+        // const profs = await Promise.all(fetches);
+        // const promises = profs.map((promise) => {
+        //   return promise;
+        // });
+        setProfile(fetchedData); // Now we are setting the resolved values
+        // console.log(profs);
       } catch (err) {
         console.error('Request failed', err);
       }
@@ -72,8 +103,22 @@ export default function Swipes() {
   };
   useEffect(() => {
     fetchMatches();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status]);
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (disabledButton) {
+      timer = setTimeout(() => {
+        setDisabled(false);
+      }, 500);
+    }
+
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [disabledButton]);
 
   return (
     <Layout>
@@ -89,19 +134,20 @@ export default function Swipes() {
         gap="4"
       >
         <Flex w="360px" h="550px" justify="center" align="center">
-          {prof.length <= 0 ? (
+          {prof.length <= 0 || current >= prof.length - 1 ? (
             <Spinner />
           ) : (
-            prof.map((profile) => {
-              return (
-                <Card
-                  image={profile.image_urls[Object.keys(profile.image_urls)[0]]}
-                  username={profile.username}
-                  bio={profile.bio}
-                  gender={profile.gender}
-                />
-              );
-            })
+            <Card
+              image={
+                prof[current].image_urls[
+                  Object.keys(prof[current].image_urls)[0]
+                ]
+              }
+              username={prof[current].username}
+              bio={prof[current].bio}
+              gender={prof[current].gender}
+              animation={animationControl}
+            />
           )}
         </Flex>
         {prof.length > 0 && (
@@ -118,19 +164,6 @@ export default function Swipes() {
           >
             <IconButton
               isRound
-              aria-label="swipe-left"
-              size="lg"
-              icon={<AiFillHeart />}
-              fontSize="3xl"
-              color="rgb(108,222,171)"
-              boxShadow="lg"
-              _hover={{ bgColor: 'gray.100', transform: 'scale(1.3)' }}
-              bgColor="gray.50"
-            >
-              swipe
-            </IconButton>
-            <IconButton
-              isRound
               aria-label="swipe-right"
               size="lg"
               icon={<FaThumbsDown />}
@@ -139,9 +172,28 @@ export default function Swipes() {
               boxShadow="lg"
               _hover={{ bgColor: 'gray.100', transform: 'scale(1.3)' }}
               bgColor="gray.50"
-            >
-              swipe
-            </IconButton>
+              onClick={() => {
+                tinderSlide(true);
+                setDisabled(true);
+              }}
+              isDisabled={disabledButton}
+            />
+            <IconButton
+              isRound
+              aria-label="swipe-left"
+              size="lg"
+              icon={<AiFillHeart />}
+              fontSize="3xl"
+              color="rgb(108,222,171)"
+              boxShadow="lg"
+              _hover={{ bgColor: 'gray.100', transform: 'scale(1.3)' }}
+              bgColor="gray.50"
+              onClick={() => {
+                tinderSlide(false);
+                setDisabled(true);
+              }}
+              isDisabled={disabledButton}
+            />
           </Flex>
         )}
       </Flex>
