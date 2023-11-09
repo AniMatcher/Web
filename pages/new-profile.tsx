@@ -172,7 +172,7 @@ export default function App() {
 
                 // alert(JSON.stringify(postVal));
                 const resp = await fetch(
-                  `http://localhost:5000/profile/new-user/`,
+                  `${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/new-user/`,
                   {
                     method: 'POST',
                     headers: {
