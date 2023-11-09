@@ -38,6 +38,7 @@ export default function Swipes() {
   const animationControl = useAnimation();
   const [disabledButton, setDisabled] = useState(false);
   const [current, setCurrent] = useState(0);
+  const [isFlipped, setIsFlipped] = useState(false);
 
   const tinderSlide = async (swipe: boolean) => {
     animationControl
@@ -78,6 +79,8 @@ export default function Swipes() {
   };
 
   const fetchMatches = async () => {
+    setProfile([]);
+    setCurrent(0);
     if (status === 'authenticated') {
       try {
         const response = await fetch(
@@ -156,6 +159,9 @@ export default function Swipes() {
               bio={prof[current].bio}
               gender={prof[current].gender}
               animation={animationControl}
+              animes={prof[current].image_urls}
+              isFlipped={isFlipped}
+              setIsFlipped={setIsFlipped}
             />
           )}
         </Flex>
@@ -183,6 +189,7 @@ export default function Swipes() {
             _hover={{ bgColor: 'gray.100', transform: 'scale(1.3)' }}
             bgColor="gray.50"
             onClick={() => {
+              setIsFlipped(false);
               tinderSlide(true);
               setDisabled(true);
             }}
@@ -199,9 +206,10 @@ export default function Swipes() {
             _hover={{ bgColor: 'gray.100', transform: 'scale(1.3)' }}
             bgColor="gray.50"
             onClick={() => {
+              setIsFlipped(false);
+
               fetchMatches();
               setDisabled(true);
-              setProfile([]);
             }}
             isDisabled={disabledButton}
           />
@@ -216,6 +224,7 @@ export default function Swipes() {
             _hover={{ bgColor: 'gray.100', transform: 'scale(1.3)' }}
             bgColor="gray.50"
             onClick={() => {
+              setIsFlipped(false);
               likeUser();
               tinderSlide(false);
               setDisabled(true);

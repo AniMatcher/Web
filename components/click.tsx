@@ -1,6 +1,7 @@
 import type { AnimationControls } from 'framer-motion';
 import { motion, useSpring } from 'framer-motion';
-import { useState, useRef } from 'react';
+import type { SetStateAction, Dispatch } from 'react';
+import { useRef } from 'react';
 
 import Card from './card';
 
@@ -16,6 +17,9 @@ interface CardProps {
   bio: string;
   gender: string;
   animation: AnimationControls;
+  animes: { [key: string]: string };
+  isFlipped: boolean;
+  setIsFlipped: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function Click({
@@ -24,9 +28,10 @@ export default function Click({
   bio,
   gender,
   animation,
+  animes,
+  isFlipped,
+  setIsFlipped,
 }: CardProps) {
-  const [isFlipped, setIsFlipped] = useState(false);
-
   const handleClick = () => {
     setIsFlipped((prevState) => !prevState);
   };
@@ -84,6 +89,7 @@ export default function Click({
               gender={gender}
               animation={animation}
               variant="front"
+              animes={animes}
             />
           </motion.div>
           <motion.div
@@ -105,6 +111,7 @@ export default function Click({
               gender={gender}
               animation={animation}
               variant="back"
+              animes={animes}
             />
           </motion.div>
         </div>

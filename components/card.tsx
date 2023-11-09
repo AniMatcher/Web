@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Text, Image } from '@chakra-ui/react';
+import { Box, Flex, Heading, Text, Image, Avatar } from '@chakra-ui/react';
 import type { AnimationControls } from 'framer-motion';
 import { motion } from 'framer-motion';
 
@@ -9,6 +9,7 @@ interface CardProps {
   gender: string;
   animation: AnimationControls;
   variant: 'front' | 'back';
+  animes: { [key: string]: string };
 }
 
 const ChakraBox = motion(Box);
@@ -20,6 +21,7 @@ export default function Card({
   gender,
   animation,
   variant,
+  animes,
 }: CardProps) {
   if (variant === 'front') {
     return (
@@ -70,20 +72,30 @@ export default function Card({
         minWidth="0"
         margin="auto"
         rounded="lg"
-        bgColor="white"
+        bgColor="gray.100"
         boxShadow="md"
         bgSize="cover"
         animate={animation}
       >
-        <Flex m="4" flexDir="column">
-          <Flex>
-            <Heading fontSize="2xl">
-              {username},&nbsp;{gender}
-            </Heading>
-            <Image />
+        <Flex m="4" flexDir="column" gap="2" overflow="hidden">
+          <Flex flexDir="row" align="center" gap="2">
+            <Avatar w="50px" h="50px" objectFit="cover" src={image} />
+            <Heading fontSize="4xl">{username}</Heading>
           </Flex>
 
-          <Text>{bio}</Text>
+          <Text p="1" border="1px" rounded="lg" bgColor="brand.800">
+            Gender: {gender}
+          </Text>
+          <Text p="1" border="1px" rounded="lg" bgColor="brand.800">
+            Bio: {bio}
+          </Text>
+          <Text>Liked Animes:</Text>
+
+          <Flex flexDir="row" flexWrap="wrap" gap="2">
+            {Object.keys(animes).map((name) => {
+              return <Image h="100px" src={animes[name]} />;
+            })}
+          </Flex>
         </Flex>
       </ChakraBox>
     );
