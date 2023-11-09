@@ -11,6 +11,8 @@ import {
   Spacer,
   SimpleGrid,
   Heading,
+  Link,
+  Button,
 } from '@chakra-ui/react';
 import type { InferGetServerSidePropsType, GetServerSideProps } from 'next';
 import { getServerSession } from 'next-auth/next';
@@ -31,7 +33,7 @@ const Page = ({ profile }: { profile: ProfileProps }) => {
     <Layout>
       <Box mx="auto" p={4}>
         <Divider />
-        <Flex p={4} flexDirection={{ base: 'column', md: 'row' }}>
+        <Flex p={2} flexDirection={{ base: 'column', md: 'row' }}>
           <Flex direction="column">
             {/** profile picture will be obtained through s3 bucket */}
             <Image
@@ -71,6 +73,11 @@ const Page = ({ profile }: { profile: ProfileProps }) => {
                 <Text>{profile.bio}</Text>
               </CardBody>
             </Card>
+            <Flex justify="center">
+              <Link href="/edit-profile">
+                <Button bgColor="brand.200">Edit Profile</Button>
+              </Link>
+            </Flex>
           </Flex>
 
           <Spacer />

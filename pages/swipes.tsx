@@ -1,10 +1,19 @@
-import { Flex, IconButton, Spinner } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Flex,
+  IconButton,
+  Spinner,
+  chakra,
+  Text,
+} from '@chakra-ui/react';
 import { useAnimation } from 'framer-motion';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import { AiFillHeart } from 'react-icons/ai';
 import { FaThumbsDown } from 'react-icons/fa';
 
+import Card from '../components/card';
 import Card from '../components/card';
 import Layout from '../components/layout';
 
