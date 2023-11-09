@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-empty */
 import {
@@ -8,7 +9,6 @@ import {
   Text,
   Menu,
   Icon,
-  HStack,
   Input,
   MenuButton,
   useToast,
@@ -19,16 +19,11 @@ import {
   Spinner,
   IconButton,
 } from '@chakra-ui/react';
-import { useAnimation } from 'framer-motion';
 import type { InferGetServerSidePropsType, GetServerSideProps } from 'next';
 import { getServerSession } from 'next-auth/next';
-import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
-import { AiFillHeart } from 'react-icons/ai';
-import { FaThumbsDown } from 'react-icons/fa';
 import { IoSend } from 'react-icons/io5';
 
-import Card from '../components/card';
 import Layout from '../components/layout';
 
 import { authOptions } from './api/auth/[...nextauth]';
@@ -97,7 +92,7 @@ function Matches({ matches }: { matches: MatchProps }) {
   const [loadingChat, SetLoadingChat] = useState(false);
 
   useEffect(() => {
-    if (activeChat != '') {
+    if (activeChat !== '') {
       SetLoadingChat(false);
       SetChatMsg(`Get messages for chat_id ${activeChat}`);
     }
@@ -224,20 +219,17 @@ export const getServerSideProps = (async (context) => {
         'Access-Control-Allow-Origin': '*',
       },
     });
-    console.log(query);
     if (query.status === 200) {
       const responseData = await query.json();
-      console.log(responseData.matches);
-      const parsed_data_arr: Profile[] = responseData.matches;
-      const chat_data: ProfileChat[] = responseData.chats;
-      console.log(parsed_data_arr);
+      const parsedDataArr: Profile[] = responseData.matches;
+      const chatData: ProfileChat[] = responseData.chats;
 
       return {
         props: {
           response: {
             my_uid: session.uuid,
-            matches: parsed_data_arr,
-            chats: chat_data,
+            matches: parsedDataArr,
+            chats: chatData,
           },
         },
       };

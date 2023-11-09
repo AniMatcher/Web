@@ -8,7 +8,6 @@ import {
   Button,
   Spinner,
   Flex,
-  Text,
   VStack,
   IconButton,
   Collapse,
@@ -22,7 +21,6 @@ import {
   DrawerBody,
   useDisclosure,
   Icon,
-  Input,
 } from '@chakra-ui/react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
