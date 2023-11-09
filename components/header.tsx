@@ -8,6 +8,7 @@ import {
   Button,
   Spinner,
   Flex,
+  Text,
   VStack,
   IconButton,
   Collapse,
@@ -21,6 +22,7 @@ import {
   DrawerBody,
   useDisclosure,
   Icon,
+  Input,
 } from '@chakra-ui/react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -166,6 +168,11 @@ export default function Header() {
               <Link href="/swipes">
                 <Button size="lg" bg="pink.100">
                   Find Love
+                </Button>
+              </Link>
+              <Link href="/matches">
+                <Button size="lg" bg="green.100">
+                  Matches
                 </Button>
               </Link>
               <Link href="/profile">
