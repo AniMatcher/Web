@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 'use client';
 
 import {
@@ -15,18 +17,17 @@ import {
   Heading,
 } from '@chakra-ui/react';
 import { Formik, Field } from 'formik';
+import type { InferGetServerSidePropsType } from 'next';
 import { useRouter } from 'next/navigation';
-import { useSession } from 'next-auth/react';
+import { getServerSession } from 'next-auth/next';
 
 import Layout from '../components/layout';
-import { InferGetServerSidePropsType, GetServerSideProps } from 'next';
-import { getServerSession } from 'next-auth/next';
+
 import { authOptions } from './api/auth/[...nextauth]';
 
 function IndexPage({ data }: { data: Profile }) {
   const toast = useToast();
   const { push } = useRouter();
-  console.log(data);
 
   return (
     <Layout>
@@ -89,7 +90,6 @@ function IndexPage({ data }: { data: Profile }) {
                   body: JSON.stringify(postVal),
                 }
               );
-              console.log(postVal);
               if (resp.status === 200) {
                 toast({
                   title: `Profile Edited!`,
@@ -111,7 +111,7 @@ function IndexPage({ data }: { data: Profile }) {
             }
           }}
         >
-          {({ handleSubmit, errors, touched }) => (
+          {({ handleSubmit, errors }) => (
             <form onSubmit={handleSubmit}>
               <VStack w="100%" m={5} spacing={4} align="flex-start">
                 <FormControl isInvalid={!!errors.genderSelect}>
@@ -215,8 +215,6 @@ export const getServerSideProps = async (context: any) => {
     });
     const response: Profile = await query.json();
 
-    console.log(query);
-
     if (query.status === 200) {
       return {
         props: {
@@ -241,16 +239,16 @@ export const getServerSideProps = async (context: any) => {
     return {
       redirect: {
         permanent: true,
-        destination: '/error',
+        destination: '/',
       },
     };
   }
-  // return {
-  //   redirect: {
-  //     permanent: false,
-  //     destination: '/login',
-  //   },
-  // };
+  return {
+    redirect: {
+      permanent: true,
+      destination: '/login',
+    },
+  };
 };
 
 const editProfile = ({

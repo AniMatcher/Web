@@ -1,3 +1,4 @@
+/* eslint-disable no-empty */
 import { Flex, IconButton, Spinner } from '@chakra-ui/react';
 import { useAnimation } from 'framer-motion';
 import { useSession } from 'next-auth/react';
@@ -38,8 +39,6 @@ export default function Swipes() {
   const [current, setCurrent] = useState(0);
 
   const tinderSlide = async (swipe: boolean) => {
-    console.log(current);
-    console.log(prof[current]);
     animationControl
       .start({
         x: swipe ? -200 : 200,
@@ -74,9 +73,7 @@ export default function Swipes() {
           liked_uuid: prof[current].uuid,
         }),
       });
-    } catch (err) {
-      console.error('Request failed', err);
-    }
+    } catch (err) {}
   };
 
   const fetchMatches = async () => {
@@ -111,14 +108,12 @@ export default function Swipes() {
           return promise;
         });
         setProfile(promises); // Now we are setting the resolved values
-        console.log(profs);
-      } catch (err) {
-        console.error('Request failed', err);
-      }
+      } catch (err) {}
     }
   };
   useEffect(() => {
     fetchMatches();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status]);
 
   useEffect(() => {

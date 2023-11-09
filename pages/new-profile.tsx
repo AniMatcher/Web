@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react/jsx-no-bind */
 /* eslint-disable react/no-unstable-nested-components */
 
@@ -21,7 +22,6 @@ import {
   Select,
   Alert,
   Heading,
-  forwardRef,
 } from '@chakra-ui/react';
 import { Formik, Field } from 'formik';
 import { useRouter } from 'next/navigation';
@@ -76,16 +76,13 @@ export default function App() {
       ChangePfp(filed.blobUrl);
       setImageFile(filed.name);
       fileSetMessage(`Uploaded ${file.name}`);
-      console.log(filed);
       SetFile(true);
-    } catch (e) {
+    } catch (e: any) {
       fileSetMessage(e.message);
     }
   }, []);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
-
-  const MAX_SIZE = 50000000;
 
   if (status === 'loading') {
     return (
@@ -172,10 +169,8 @@ export default function App() {
                   image: imgBase,
                   image_name: imgFile,
                 };
-                console.log(postVal);
-                console.log(imgBase);
+
                 // alert(JSON.stringify(postVal));
-                console.log(JSON.stringify(postVal));
                 const resp = await fetch(
                   `http://localhost:5000/profile/new-user/`,
                   {
@@ -213,7 +208,13 @@ export default function App() {
                   <Text>Profile Picture:</Text>
                   <Flex>
                     {hasFile === true && (
-                      <Image mx={20} h={200} w={200} src={pfp} />
+                      <Image
+                        alt="No Image Loaded"
+                        mx={20}
+                        h={200}
+                        w={200}
+                        src={pfp || 'oops'}
+                      />
                     )}
                     <Flex
                       align="center"
