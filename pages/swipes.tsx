@@ -5,8 +5,9 @@ import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import { AiFillHeart } from 'react-icons/ai';
 import { FaThumbsDown } from 'react-icons/fa';
+import { IoMdRefresh } from 'react-icons/io';
 
-import Card from '../components/card';
+import Click from '../components/click';
 import Layout from '../components/layout';
 
 type Profile = {
@@ -53,7 +54,7 @@ export default function Swipes() {
           rotate: 0,
           transition: { duration: 0 },
         });
-        if (current < 4) {
+        if (current < prof.length) {
           setCurrent(current + 1);
         }
       });
@@ -111,6 +112,7 @@ export default function Swipes() {
       } catch (err) {}
     }
   };
+
   useEffect(() => {
     fetchMatches();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -148,7 +150,7 @@ export default function Swipes() {
           {prof.length <= 0 || current >= prof.length ? (
             <Spinner />
           ) : (
-            <Card
+            <Click
               image={prof[current].image_profile}
               username={prof[current].username}
               bio={prof[current].bio}
@@ -157,53 +159,70 @@ export default function Swipes() {
             />
           )}
         </Flex>
-        {prof.length > 0 && (
-          <Flex
+
+        <Flex
+          boxShadow="lg"
+          p="2"
+          pl="4"
+          pr="4"
+          bgColor="brand.200"
+          flexDirection="row"
+          bottom="20px"
+          gap="10"
+          rounded="3xl"
+        >
+          <IconButton
+            isRound
+            aria-label="swipe-right"
+            size="lg"
+            icon={<FaThumbsDown />}
+            fontSize="2xl"
+            color="red"
             boxShadow="lg"
-            p="2"
-            pl="4"
-            pr="4"
-            bgColor="brand.200"
-            flexDirection="row"
-            bottom="20px"
-            gap="10"
-            rounded="3xl"
-          >
-            <IconButton
-              isRound
-              aria-label="swipe-right"
-              size="lg"
-              icon={<FaThumbsDown />}
-              fontSize="2xl"
-              color="red"
-              boxShadow="lg"
-              _hover={{ bgColor: 'gray.100', transform: 'scale(1.3)' }}
-              bgColor="gray.50"
-              onClick={() => {
-                tinderSlide(true);
-                setDisabled(true);
-              }}
-              isDisabled={disabledButton}
-            />
-            <IconButton
-              isRound
-              aria-label="swipe-left"
-              size="lg"
-              icon={<AiFillHeart />}
-              fontSize="3xl"
-              color="rgb(108,222,171)"
-              boxShadow="lg"
-              _hover={{ bgColor: 'gray.100', transform: 'scale(1.3)' }}
-              bgColor="gray.50"
-              onClick={() => {
-                likeUser();
-                tinderSlide(false);
-                setDisabled(true);
-              }}
-              isDisabled={disabledButton}
-            />
-          </Flex>
-        )}
+            // eslint-disable-next-line sonarjs/no-duplicate-string
+            _hover={{ bgColor: 'gray.100', transform: 'scale(1.3)' }}
+            bgColor="gray.50"
+            onClick={() => {
+              tinderSlide(true);
+              setDisabled(true);
+            }}
+            isDisabled={disabledButton}
+          />
+          <IconButton
+            isRound
+            aria-label="refresh-matches"
+            size="lg"
+            icon={<IoMdRefresh />}
+            fontSize="4xl"
+            color="red"
+            boxShadow="lg"
+            _hover={{ bgColor: 'gray.100', transform: 'scale(1.3)' }}
+            bgColor="gray.50"
+            onClick={() => {
+              fetchMatches();
+              setDisabled(true);
+              setProfile([]);
+            }}
+            isDisabled={disabledButton}
+          />
+          <IconButton
+            isRound
+            aria-label="swipe-left"
+            size="lg"
+            icon={<AiFillHeart />}
+            fontSize="3xl"
+            color="rgb(108,222,171)"
+            boxShadow="lg"
+            _hover={{ bgColor: 'gray.100', transform: 'scale(1.3)' }}
+            bgColor="gray.50"
+            onClick={() => {
+              likeUser();
+              tinderSlide(false);
+              setDisabled(true);
+            }}
+            isDisabled={disabledButton}
+          />
+        </Flex>
       </Flex>
     </Layout>
   );
