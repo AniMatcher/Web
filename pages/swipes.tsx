@@ -145,7 +145,7 @@ export default function Swipes() {
         gap="4"
       >
         <Flex bg="gray.200" w="360px" h="550px" justify="center" align="center">
-          {prof.length <= 0 || current >= prof.length - 1 ? (
+          {prof.length <= 0 || current >= prof.length ? (
             <Spinner />
           ) : (
             <Card
