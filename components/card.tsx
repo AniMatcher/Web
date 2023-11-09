@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Text } from '@chakra-ui/react';
+import { Box, Flex, Heading, Text, Image } from '@chakra-ui/react';
 import type { AnimationControls } from 'framer-motion';
 import { motion } from 'framer-motion';
 
@@ -23,16 +23,17 @@ export default function Card({
     <ChakraBox
       w="360px"
       h="550px"
+      border="1px solid black"
       position="absolute"
       minWidth="0"
       margin="auto"
       rounded="lg"
       bgColor="white"
-      bgImage={image || 'aot.jpeg'}
       boxShadow="md"
       bgSize="cover"
       animate={animation}
     >
+      <Image objectFit="cover" w="100%" h="100%" src={image || 'aot.jpeg'} />
       <Flex
         w="100%"
         position="absolute"

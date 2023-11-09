@@ -165,7 +165,7 @@ export default function Header() {
             <>
               <Link href="/swipes">
                 <Button size="lg" bg="pink.100">
-                  Start Matching
+                  Find Love
                 </Button>
               </Link>
               <Link href="/profile">

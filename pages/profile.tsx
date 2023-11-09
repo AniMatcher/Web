@@ -37,7 +37,7 @@ const Page = ({ profile }: { profile: ProfileProps }) => {
           <Flex direction="column">
             {/** profile picture will be obtained through s3 bucket */}
             <Image
-              src="/magflake.jpeg"
+              src={profile.image_profile}
               alt="profile picture"
               width={300}
               height={300}
@@ -119,6 +119,7 @@ type ProfileProps = {
   sex_pref: string;
   genre: string;
   bio: string;
+  image_profile: string;
   image_urls: {
     [key: string]: string;
   };

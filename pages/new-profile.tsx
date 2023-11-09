@@ -40,6 +40,7 @@ export default function App() {
   const [filemessage, fileSetMessage] = useState('No File Yet');
   const [pfp, ChangePfp] = useState<null | string>(null);
   const [imgBase, setImageBase] = useState('');
+  const [imgFile, setImageFile] = useState('');
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     const file = acceptedFiles?.[0];
     if (!file) {
@@ -73,6 +74,7 @@ export default function App() {
         name: `${file.name}_${Date.now()}`,
       };
       ChangePfp(filed.blobUrl);
+      setImageFile(filed.name);
       fileSetMessage(`Uploaded ${file.name}`);
       console.log(filed);
       SetFile(true);
@@ -168,38 +170,40 @@ export default function App() {
                   genre: values.genre,
                   bio: values.bio,
                   image: imgBase,
+                  image_name: imgFile,
                 };
                 console.log(postVal);
                 console.log(imgBase);
                 // alert(JSON.stringify(postVal));
-                // const resp = await fetch(
-                //   `${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/new-user/`,
-                //   {
-                //     method: 'POST',
-                //     headers: {
-                //       'Content-Type': 'application/json',
-                //     },
-                //     body: JSON.stringify(postVal),
-                //   }
-                // );
-                // if (resp.status === 200) {
-                //   toast({
-                //     title: `Profile created!`,
-                //     description: "We've created your profile for you.",
-                //     status: 'success',
-                //     duration: 9000,
-                //     isClosable: true,
-                //   });
-                //   push('/add-anime');
-                // } else {
-                //   toast({
-                //     title: 'ERROR Occurred',
-                //     description: resp.statusText,
-                //     status: 'error',
-                //     duration: 9000,
-                //     isClosable: true,
-                //   });
-                // }
+                console.log(JSON.stringify(postVal));
+                const resp = await fetch(
+                  `http://localhost:5000/profile/new-user/`,
+                  {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(postVal),
+                  }
+                );
+                if (resp.status === 200) {
+                  toast({
+                    title: `Profile created!`,
+                    description: "We've created your profile for you.",
+                    status: 'success',
+                    duration: 9000,
+                    isClosable: true,
+                  });
+                  push('/add-anime');
+                } else {
+                  toast({
+                    title: 'ERROR Occurred',
+                    description: resp.statusText,
+                    status: 'error',
+                    duration: 9000,
+                    isClosable: true,
+                  });
+                }
               }
             }}
           >
