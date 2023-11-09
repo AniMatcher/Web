@@ -59,6 +59,25 @@ export default function Swipes() {
       });
   };
 
+  const likeUser = async () => {
+    try {
+      await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/user/matches`, {
+        method: 'POST',
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          // eslint-disable-next-line sonarjs/no-duplicate-string
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          uuid: data?.uuid,
+          liked_uuid: prof[current].uuid,
+        }),
+      });
+    } catch (err) {
+      console.error('Request failed', err);
+    }
+  };
+
   const fetchMatches = async () => {
     if (status === 'authenticated') {
       try {
@@ -74,10 +93,8 @@ export default function Swipes() {
         );
         const profiles = await response.json();
 
-        const fetchedData: ProfileProps[] = [];
-
-        profiles.forEach(async (promise: Profile) => {
-          const res = await fetch(
+        const fetches = profiles.map((promise: Profile) =>
+          fetch(
             `${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/uuid/${promise.uuid}`,
             {
               method: 'GET',
@@ -86,16 +103,14 @@ export default function Swipes() {
                 'Content-Type': 'application/json',
               },
             }
-          );
-          const jsonData = await res.json();
-          fetchedData.push(jsonData);
+          ).then((res) => res.json())
+        );
+        const profs = await Promise.all(fetches);
+        const promises = profs.map((promise) => {
+          return promise;
         });
-        // const profs = await Promise.all(fetches);
-        // const promises = profs.map((promise) => {
-        //   return promise;
-        // });
-        setProfile(fetchedData); // Now we are setting the resolved values
-        // console.log(profs);
+        setProfile(promises); // Now we are setting the resolved values
+        console.log(profs);
       } catch (err) {
         console.error('Request failed', err);
       }
@@ -189,6 +204,7 @@ export default function Swipes() {
               _hover={{ bgColor: 'gray.100', transform: 'scale(1.3)' }}
               bgColor="gray.50"
               onClick={() => {
+                likeUser();
                 tinderSlide(false);
                 setDisabled(true);
               }}
