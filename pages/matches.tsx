@@ -62,12 +62,12 @@ type MatchProps = {
   chats: ProfileChat[];
 };
 
-type chatWindowProps = {
+type ChatWindowProps = {
   user_uid: string;
   chat_id: string;
 };
 
-function ChatWindow({ user_uid, chat_id }: chatWindowProps) {
+function ChatWindow({ user_uid, chat_id }: ChatWindowProps) {
   return (
     <Box w="100%" h="100%">
       <Flex w="100%" h="90%" flexGrow={1} overflowY="scroll" direction="column">
@@ -93,14 +93,13 @@ function ChatWindow({ user_uid, chat_id }: chatWindowProps) {
 function Matches({ matches }: { matches: MatchProps }) {
   const toast = useToast();
   const [activeChat, SetActiveChat] = useState('');
-  const [chatMsg, SetChatMsg] = useState([]);
+  const [chatMsg, SetChatMsg] = useState('');
   const [loadingChat, SetLoadingChat] = useState(false);
 
   useEffect(() => {
     if (activeChat != '') {
-      console.log(`Get messages for chat_id ${activeChat}`);
       SetLoadingChat(false);
-      SetChatMsg([`Get messages for chat_id ${activeChat}`]);
+      SetChatMsg(`Get messages for chat_id ${activeChat}`);
     }
   }, [activeChat]);
 
