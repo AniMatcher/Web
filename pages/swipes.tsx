@@ -1,19 +1,10 @@
-import {
-  Box,
-  Button,
-  Flex,
-  IconButton,
-  Spinner,
-  chakra,
-  Text,
-} from '@chakra-ui/react';
+import { Flex, IconButton, Spinner } from '@chakra-ui/react';
 import { useAnimation } from 'framer-motion';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import { AiFillHeart } from 'react-icons/ai';
 import { FaThumbsDown } from 'react-icons/fa';
 
-import Card from '../components/card';
 import Card from '../components/card';
 import Layout from '../components/layout';
 
@@ -46,8 +37,8 @@ export default function Swipes() {
   const [current, setCurrent] = useState(0);
 
   const tinderSlide = async (swipe: boolean) => {
-    console.log(current);
-    console.log(prof[current]);
+    // console.log(current);
+    // console.log(prof[current]);
     animationControl
       .start({
         x: swipe ? -200 : 200,
@@ -83,7 +74,7 @@ export default function Swipes() {
         }),
       });
     } catch (err) {
-      console.error('Request failed', err);
+      // console.error('Request failed', err);
     }
   };
 
@@ -121,7 +112,7 @@ export default function Swipes() {
         setProfile(promises); // Now we are setting the resolved values
         console.log(profs);
       } catch (err) {
-        console.error('Request failed', err);
+        // console.error('Request failed', err);
       }
     }
   };
@@ -158,7 +149,7 @@ export default function Swipes() {
         gap="4"
       >
         <Flex w="360px" h="550px" justify="center" align="center">
-          {prof.length <= 0 || current >= prof.length - 1 ? (
+          {prof.length <= 0 || current >= prof.length ? (
             <Spinner />
           ) : (
             <Card
