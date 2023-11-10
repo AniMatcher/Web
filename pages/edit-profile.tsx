@@ -129,7 +129,7 @@ function IndexPage({ data }: { data: Profile }) {
                 bio: values.bio,
                 image: data.image_profile,
               };
-              alert(JSON.stringify(postVal));
+              // alert(JSON.stringify(postVal));
               const resp = await fetch(
                 `${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/edit-profile/`,
                 {
