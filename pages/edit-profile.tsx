@@ -78,6 +78,7 @@ function IndexPage({ data }: { data: Profile }) {
                 uuid: data.uuid,
                 genre: values.genre,
                 bio: values.bio,
+                image: data.image_profile,
               };
               // alert(JSON.stringify(post_val));
               const resp = await fetch(
@@ -201,6 +202,7 @@ type Profile = {
   sex_pref: string;
   genre: string;
   bio: string;
+  image_profile: string;
 };
 
 export const getServerSideProps = async (context: any) => {
@@ -226,6 +228,7 @@ export const getServerSideProps = async (context: any) => {
             sex_pref: response.sex_pref,
             genre: response.genre,
             bio: response.bio,
+            image_profile: response.image_profile,
           },
         },
       };

@@ -44,6 +44,7 @@ export default function Card({
           h="100%"
           src={image || 'aot.jpeg'}
           userSelect="none"
+          draggable={false}
         />
         <Flex
           w="100%"
@@ -93,7 +94,7 @@ export default function Card({
 
           <Flex flexDir="row" flexWrap="wrap" gap="2">
             {Object.keys(animes).map((name) => {
-              return <Image h="100px" src={animes[name]} />;
+              return <Image draggable={false} h="100px" src={animes[name]} />;
             })}
           </Flex>
         </Flex>
