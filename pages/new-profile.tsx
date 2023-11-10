@@ -41,6 +41,7 @@ export default function App() {
   const [pfp, ChangePfp] = useState<null | string>(null);
   const [imgBase, setImageBase] = useState('');
   const [imgFile, setImageFile] = useState('');
+
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     const file = acceptedFiles?.[0];
     if (!file) {
@@ -237,7 +238,6 @@ export default function App() {
                       ) : (
                         <Text>Drag, or click to select Profile Picture</Text>
                       )}
-                      )
                     </Flex>
                   </Flex>
                   <Alert

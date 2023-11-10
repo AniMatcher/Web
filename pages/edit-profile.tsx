@@ -20,6 +20,7 @@ import { Formik, Field } from 'formik';
 import type { InferGetServerSidePropsType } from 'next';
 import { useRouter } from 'next/navigation';
 import { getServerSession } from 'next-auth/next';
+// import { useDropzone } from 'react-dropzone';
 
 import Layout from '../components/layout';
 
@@ -28,6 +29,54 @@ import { authOptions } from './api/auth/[...nextauth]';
 function IndexPage({ data }: { data: Profile }) {
   const toast = useToast();
   const { push } = useRouter();
+  // const [hasFile, SetFile] = useState<boolean | null>(null);
+  // const [filemessage, fileSetMessage] = useState('No File Yet');
+  // const [pfp, ChangePfp] = useState<null | string>(null);
+  // const [imgBase, setImageBase] = useState('');
+  // const [imgFile, setImageFile] = useState('');
+
+  // const onDrop = useCallback(async (acceptedFiles: File[]) => {
+  //   const file = acceptedFiles?.[0];
+  //   if (!file) {
+  //     return;
+  //   }
+  //   fileSetMessage('Parsing File.....');
+  //   SetFile(false);
+
+  //   if (
+  //     !['image/jpeg', 'image/jpg', 'image/png', 'image/heic'].includes(
+  //       file.type
+  //     )
+  //   ) {
+  //     fileSetMessage('Not valid image format');
+  //     SetFile(false);
+  //     return;
+  //   }
+
+  //   try {
+  //     const fr = new FileReader();
+  //     fr.readAsDataURL(file);
+  //     fr.onloadend = () => {
+  //       const base64String = fr.result?.toString();
+  //       setImageBase(base64String || 'ERROR');
+  //     };
+  //     // const buff = Buffer.from(await file.text());
+  //     // const dataString = `data:${file.type};base64,${buff.toString('base64')}`;
+
+  //     const filed = {
+  //       blobUrl: URL.createObjectURL(file),
+  //       name: `${file.name}_${Date.now()}`,
+  //     };
+  //     ChangePfp(filed.blobUrl);
+  //     setImageFile(filed.name);
+  //     fileSetMessage(`Uploaded ${file.name}`);
+  //     SetFile(true);
+  //   } catch (e: any) {
+  //     fileSetMessage(e.message);
+  //   }
+  // }, []);
+
+  // const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   return (
     <Layout>
@@ -112,82 +161,96 @@ function IndexPage({ data }: { data: Profile }) {
             }
           }}
         >
-          {({ handleSubmit, errors }) => (
-            <form onSubmit={handleSubmit}>
-              <VStack w="100%" m={5} spacing={4} align="flex-start">
-                <FormControl isInvalid={!!errors.genderSelect}>
-                  <FormLabel htmlFor="gendeSelect">Gender</FormLabel>
-                  <Field
-                    as={Select}
-                    id="genderSelect"
-                    name="genderSelect"
-                    value={data.gender}
-                    validate={(value: string) => {
-                      let error;
-                      if (value === 'Select') {
-                        error = 'Select not valid gender';
-                      }
-                      return error;
-                    }}
-                  >
-                    <option value="M">Male</option>
-                    <option value="F">Female</option>
-                    <option value="NB">Nonbinary</option>
-                  </Field>
-                  <FormErrorMessage>{errors.genderSelect}</FormErrorMessage>
-                </FormControl>
-                <FormControl>
-                  <FormLabel htmlFor="preferences">Preferences</FormLabel>
-                  <Flex>
-                    <Box pr="6">
+          {({ handleSubmit, errors }) => {
+            return (
+              <form onSubmit={handleSubmit}>
+                <VStack w="100%" m={5} spacing={4} align="flex-start">
+                  <FormControl isInvalid={!!errors.genderSelect}>
+                    <FormLabel htmlFor="gendeSelect">Gender</FormLabel>
+                    <Field
+                      as={Select}
+                      id="genderSelect"
+                      name="genderSelect"
+                      value={data.gender}
+                      validate={(value: string) => {
+                        let error;
+                        if (value === 'Select') {
+                          error = 'Select not valid gender';
+                        }
+                        return error;
+                      }}
+                    >
+                      <option value="M">Male</option>
+                      <option value="F">Female</option>
+                      <option value="NB">Nonbinary</option>
+                    </Field>
+                    <FormErrorMessage>{errors.genderSelect}</FormErrorMessage>
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel htmlFor="preferences">Preferences</FormLabel>
+                    <Flex gap="2">
                       <Field
                         as={Checkbox}
                         id="malepref"
                         name="malepref"
                         colorScheme="orange"
+                        defaultChecked={
+                          data.sex_pref === 'A' ||
+                          data.sex_pref === 'D' ||
+                          data.sex_pref === 'E' ||
+                          data.sex_pref === 'G'
+                        }
                       >
                         Male
                       </Field>
-                    </Box>
-                    <Box pr="6">
                       <Field
                         as={Checkbox}
                         id="femalepref"
                         name="femalepref"
                         colorScheme="orange"
+                        defaultChecked={
+                          data.sex_pref === 'B' ||
+                          data.sex_pref === 'D' ||
+                          data.sex_pref === 'F' ||
+                          data.sex_pref === 'G'
+                        }
                       >
                         Female
                       </Field>
-                    </Box>
-                    <Box>
                       <Field
                         as={Checkbox}
                         id="nonbinarypref"
                         name="nonbinarypref"
                         colorScheme="orange"
+                        defaultChecked={
+                          data.sex_pref === 'C' ||
+                          data.sex_pref === 'E' ||
+                          data.sex_pref === 'F' ||
+                          data.sex_pref === 'G'
+                        }
                       >
                         Nonbinary
                       </Field>
-                    </Box>
-                  </Flex>
-                </FormControl>
-                <FormControl>
-                  <FormLabel htmlFor="biography">Bio</FormLabel>
-                  <Field
-                    as={Textarea}
-                    id="bio"
-                    name="bio"
-                    type="text"
-                    variant="filled"
-                    placeholder="Tell me a bit about yourself."
-                  />
-                </FormControl>
-                <Button size="lg" bg="brand.200" my={8} type="submit">
-                  Submit
-                </Button>
-              </VStack>
-            </form>
-          )}
+                    </Flex>
+                  </FormControl>
+                  <FormControl>
+                    <FormLabel htmlFor="biography">Bio</FormLabel>
+                    <Field
+                      as={Textarea}
+                      id="bio"
+                      name="bio"
+                      type="text"
+                      variant="filled"
+                      placeholder="Tell me a bit about yourself."
+                    />
+                  </FormControl>
+                  <Button size="lg" bg="brand.200" my={8} type="submit">
+                    Submit
+                  </Button>
+                </VStack>
+              </form>
+            );
+          }}
         </Formik>
       </Box>
     </Layout>
