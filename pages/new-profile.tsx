@@ -40,6 +40,7 @@ export default function App() {
   const [filemessage, fileSetMessage] = useState('No File Yet');
   const [pfp, ChangePfp] = useState<null | string>(null);
   const [imgBase, setImageBase] = useState('');
+  const [submitB, SetsubmitB] = useState(false);
   const [imgFile, setImageFile] = useState('');
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
@@ -120,6 +121,7 @@ export default function App() {
               pref: 0,
             }}
             onSubmit={async (values) => {
+              SetsubmitB(true);
               const valprefnum =
                 64 +
                 Number(values.malepref) +
@@ -182,6 +184,7 @@ export default function App() {
                     body: JSON.stringify(postVal),
                   }
                 );
+                SetsubmitB(false);
                 if (resp.status === 200) {
                   toast({
                     title: `Profile created!`,
@@ -319,7 +322,13 @@ export default function App() {
                     />
                     <FormErrorMessage>{errors.bio}</FormErrorMessage>
                   </FormControl>
-                  <Button size="lg" bg="brand.200" my={8} type="submit">
+                  <Button
+                    isLoading={submitB}
+                    size="lg"
+                    bg="brand.200"
+                    my={8}
+                    type="submit"
+                  >
                     Create Profile
                   </Button>
                 </VStack>

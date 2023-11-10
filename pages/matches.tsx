@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-empty */
@@ -6,6 +7,7 @@ import {
   Image,
   Box,
   Flex,
+  SimpleGrid,
   Text,
   Menu,
   Icon,
@@ -25,6 +27,7 @@ import { useEffect, useState } from 'react';
 import { IoSend } from 'react-icons/io5';
 
 import Layout from '../components/layout';
+import supabase from '../utils/supabase';
 
 import { authOptions } from './api/auth/[...nextauth]';
 
@@ -57,21 +60,77 @@ type MatchProps = {
   chats: ProfileChat[];
 };
 
+type Message = {
+  chat_uid: string;
+  author_id: string;
+  text: string;
+};
+
 type ChatWindowProps = {
   user_uid: string;
   chat_id: string;
+  chatMsg: {
+    data: Message[];
+  };
 };
 
-function ChatWindow({ user_uid, chat_id }: ChatWindowProps) {
+function ChatWindow({ user_uid, chat_id, chatMsg }: ChatWindowProps) {
+  const [text, SetText] = useState('');
   return (
-    <Box w="100%" h="100%">
-      <Flex w="100%" h="90%" flexGrow={1} overflowY="scroll" direction="column">
-        <Text>{chat_id}</Text>
-      </Flex>
+    <Box p={4} w="100%" h="100%">
+      <SimpleGrid columns={2} w="100%" h="90%" flexGrow={1} overflowY="scroll">
+        {chatMsg.data.map((i) => (
+          <>
+            {i.author_id === user_uid && <Box />}
+            <Box
+              rounded="lg"
+              w="50%"
+              alignContent={
+                i.author_id === user_uid ? 'flex-end' : 'flex-start'
+              }
+              p={4}
+              my={4}
+              color="black"
+              bg={i.author_id === user_uid ? 'brand.200' : 'brand.800'}
+            >
+              <Text>{i.text}</Text>
+            </Box>
+            {i.author_id !== user_uid && <Box />}
+          </>
+        ))}
+      </SimpleGrid>
 
       <Flex p={4}>
-        <Input rounded="lg" bg="white" bottom={0} />
+        <Input
+          onKeyDown={async (e) => {
+            if (e.key === 'enter') {
+              await supabase.from('messages').insert([
+                {
+                  text,
+                  chat_id,
+                  author_id: user_uid,
+                },
+              ]);
+              SetText('');
+            }
+          }}
+          value={text}
+          onChange={(e) => SetText(e.target.value)}
+          rounded="lg"
+          bg="white"
+          bottom={0}
+        />
         <IconButton
+          onClick={async () => {
+            await supabase.from('messages').insert([
+              {
+                text,
+                chat_id,
+                author_id: user_uid,
+              },
+            ]);
+            SetText('');
+          }}
           ml={2}
           rounded="lg"
           bg="brand.100"
@@ -88,13 +147,33 @@ function ChatWindow({ user_uid, chat_id }: ChatWindowProps) {
 function Matches({ matches }: { matches: MatchProps }) {
   const toast = useToast();
   const [activeChat, SetActiveChat] = useState('');
-  const [chatMsg, SetChatMsg] = useState('');
+  const [chatMsg, SetChatMsg] = useState<null | any>(null);
   const [loadingChat, SetLoadingChat] = useState(false);
 
   useEffect(() => {
-    if (activeChat !== '') {
+    async function getAllMessages() {
+      return supabase.from('messages').select('*').eq('chat_id', activeChat);
+    }
+
+    async function main() {
+      const msgs = await getAllMessages();
+      SetChatMsg(msgs);
+      const messagesWatcher = supabase
+        .channel('custom-all-channel')
+        .on(
+          'postgres_changes',
+          { event: '*', schema: 'public', table: 'messages' },
+          async () => {
+            const m = await getAllMessages();
+            SetChatMsg(m);
+          }
+        )
+        .subscribe();
       SetLoadingChat(false);
-      SetChatMsg(`Get messages for chat_id ${activeChat}`);
+      // SetChatMsg(`Get messages for chat_id ${activeChat}`);
+    }
+    if (activeChat !== '') {
+      main();
     }
   }, [activeChat]);
 
@@ -198,7 +277,13 @@ function Matches({ matches }: { matches: MatchProps }) {
             {loadingChat ? (
               <Spinner size="xl" />
             ) : activeChat !== '' ? (
-              <ChatWindow chat_id={activeChat} user_uid={matches.my_uid} />
+              <Box>
+                <ChatWindow
+                  chatMsg={chatMsg}
+                  chat_id={activeChat}
+                  user_uid={matches.my_uid}
+                />
+              </Box>
             ) : (
               <br />
             )}

@@ -32,6 +32,7 @@ export default function Page() {
   const [autoCompleteRes, SetAutoCompleteRes] = useState<AnimeSearch[]>([]);
   const [highlightAnime, SetHighlightAnime] = useState<AnimeSearch[]>([]);
   const toast = useToast();
+  const [submitB, SetsubmitB] = useState(false);
   const { push } = useRouter();
   const { status, data } = useSession();
 
@@ -102,7 +103,9 @@ export default function Page() {
                 Clear
               </Button>
               <Button
+                isLoading={submitB}
                 onClick={async () => {
+                  SetsubmitB(true);
                   if (highlightAnime.length < 5 || highlightAnime.length > 10) {
                     toast({
                       title: 'Cannot add animes',
@@ -128,6 +131,7 @@ export default function Page() {
                         body: JSON.stringify(postData),
                       }
                     );
+                    SetsubmitB(true);
                     if (resp.status === 200) {
                       toast({
                         title: `Profile created!`,
