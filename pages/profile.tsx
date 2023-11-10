@@ -24,6 +24,14 @@ import { authOptions } from './api/auth/[...nextauth]';
 
 // user, email, sexual pref, 10 animes you like, genre, profile picture, gender, Recommended Anime
 const Page = ({ profile }: { profile: ProfileProps }) => {
+  let gender;
+  if (profile.gender === 'M') {
+    gender = 'Male';
+  } else if (profile.gender === 'F') {
+    gender = 'Female';
+  } else if (profile.gender === 'NB') {
+    gender = 'NonBinary';
+  }
   return (
     <Layout>
       <Box mx="auto" p={4}>
@@ -58,7 +66,7 @@ const Page = ({ profile }: { profile: ProfileProps }) => {
                 >
                   <AiOutlineUser />
                   <Text colorScheme="blackAlpha" paddingLeft={1}>
-                    {profile.gender}
+                    {gender}
                   </Text>
                 </Flex>
                 <Text>
