@@ -87,16 +87,16 @@ function IndexPage({ data }: { data: Profile }) {
             genderSelect: data.gender,
             malepref:
               data.sex_pref === 'A' ||
-              data.sex_pref === 'D' ||
+              data.sex_pref === 'C' ||
               data.sex_pref === 'E' ||
               data.sex_pref === 'G',
             femalepref:
               data.sex_pref === 'B' ||
-              data.sex_pref === 'D' ||
+              data.sex_pref === 'C' ||
               data.sex_pref === 'F' ||
               data.sex_pref === 'G',
             nonbinarypref:
-              data.sex_pref === 'C' ||
+              data.sex_pref === 'D' ||
               data.sex_pref === 'E' ||
               data.sex_pref === 'F' ||
               data.sex_pref === 'G',
@@ -129,7 +129,7 @@ function IndexPage({ data }: { data: Profile }) {
                 bio: values.bio,
                 image: data.image_profile,
               };
-              // alert(JSON.stringify(post_val));
+              alert(JSON.stringify(postVal));
               const resp = await fetch(
                 `${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/edit-profile/`,
                 {
@@ -197,7 +197,7 @@ function IndexPage({ data }: { data: Profile }) {
                         colorScheme="orange"
                         defaultChecked={
                           data.sex_pref === 'A' ||
-                          data.sex_pref === 'D' ||
+                          data.sex_pref === 'C' ||
                           data.sex_pref === 'E' ||
                           data.sex_pref === 'G'
                         }
@@ -211,7 +211,7 @@ function IndexPage({ data }: { data: Profile }) {
                         colorScheme="orange"
                         defaultChecked={
                           data.sex_pref === 'B' ||
-                          data.sex_pref === 'D' ||
+                          data.sex_pref === 'C' ||
                           data.sex_pref === 'F' ||
                           data.sex_pref === 'G'
                         }
@@ -224,7 +224,7 @@ function IndexPage({ data }: { data: Profile }) {
                         name="nonbinarypref"
                         colorScheme="orange"
                         defaultChecked={
-                          data.sex_pref === 'C' ||
+                          data.sex_pref === 'D' ||
                           data.sex_pref === 'E' ||
                           data.sex_pref === 'F' ||
                           data.sex_pref === 'G'
