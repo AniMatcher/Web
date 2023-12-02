@@ -84,7 +84,7 @@ export default function Swipes() {
     if (status === 'authenticated') {
       try {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/matches?uuid=${data.uuid}&num=2`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/matches?uuid=${data.uuid}&num=10`,
           {
             method: 'GET',
             headers: {
