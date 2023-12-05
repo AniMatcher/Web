@@ -137,7 +137,7 @@ const Page = ({ profile }: { profile: ProfileProps }) => {
                       {profile.genre}
                     </Text>
                   </Flex>
-                  {profile.metrics && profile.metrics.anilist && (
+                  {profile.metrics && profile.metrics[0].anilist && (
                     <Button
                       _hover={{}}
                       color="white"
