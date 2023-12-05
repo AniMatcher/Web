@@ -18,8 +18,6 @@ import {
   Stat,
   StatLabel,
   StatNumber,
-  StatHelpText,
-  StatArrow,
   StatGroup,
   Modal,
   ModalOverlay,
@@ -32,12 +30,12 @@ import {
 import type { InferGetServerSidePropsType, GetServerSideProps } from 'next';
 import { getServerSession } from 'next-auth/next';
 import { AiOutlineUser } from 'react-icons/ai';
+import { FaTheaterMasks } from 'react-icons/fa';
 import { SiAnilist } from 'react-icons/si';
 
 import Layout from '../components/layout';
 
 import { authOptions } from './api/auth/[...nextauth]';
-import { FaTheaterMasks } from 'react-icons/fa';
 
 // user, email, sexual pref, 10 animes you like, genre, profile picture, gender, Recommended Anime
 const Page = ({ profile }: { profile: ProfileProps }) => {
