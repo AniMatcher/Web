@@ -48,53 +48,48 @@ const Page = ({ profile }: { profile: ProfileProps }) => {
   } else if (profile.gender === 'NB') {
     gender = 'NonBinary';
   }
+
   return (
     <>
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Metrics</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody overflowY="scroll">
-            <StatGroup my={2}>
-              <Stat>
-                <StatLabel>Count</StatLabel>
-                <StatNumber>
-                  {profile.metrics ? profile.metrics.count : 0}
-                </StatNumber>
-              </Stat>
+      {profile.metrics && (
+        <Modal isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Metrics</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <StatGroup my={2}>
+                <Stat>
+                  <StatLabel>Count</StatLabel>
+                  <StatNumber>{profile.metrics[0].count}</StatNumber>
+                </Stat>
 
-              <Stat>
-                <StatLabel>meanScore</StatLabel>
-                <StatNumber>
-                  {profile.metrics ? profile.metrics.meanScore : 0}
-                </StatNumber>
-              </Stat>
-            </StatGroup>
-            <StatGroup my={2}>
-              <Stat>
-                <StatLabel>Episodes Watched</StatLabel>
-                <StatNumber>
-                  {profile.metrics ? profile.metrics.episodesWatched : 0}
-                </StatNumber>
-              </Stat>
+                <Stat>
+                  <StatLabel>meanScore</StatLabel>
+                  <StatNumber>{profile.metrics[0].meanScore}</StatNumber>
+                </Stat>
+              </StatGroup>
+              <StatGroup my={2}>
+                <Stat>
+                  <StatLabel>Episodes Watched</StatLabel>
+                  <StatNumber>{profile.metrics[0].episodesWatched}</StatNumber>
+                </Stat>
 
-              <Stat>
-                <StatLabel>Minutes Watched</StatLabel>
-                <StatNumber>
-                  {profile.metrics ? profile.metrics.minutesWatched : 0}
-                </StatNumber>
-              </Stat>
-            </StatGroup>
-          </ModalBody>
+                <Stat>
+                  <StatLabel>Minutes Watched</StatLabel>
+                  <StatNumber>{profile.metrics[0].minutesWatched}</StatNumber>
+                </Stat>
+              </StatGroup>
+            </ModalBody>
 
-          <ModalFooter>
-            <Button colorScheme="blue.100" mr={3} onClick={onClose}>
-              Close
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+            <ModalFooter>
+              <Button colorScheme="blue.100" mr={3} onClick={onClose}>
+                Close
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+      )}
       <Layout>
         <Box mx="auto" p={4}>
           <Divider />
@@ -202,13 +197,8 @@ const Page = ({ profile }: { profile: ProfileProps }) => {
               >
                 <SimpleGrid columns={{ base: 2, sm: 3, md: 4 }}>
                   {Object.keys(profile.image_urls).map((k: string) => (
-                    <Tooltip label={k} aria-label="A tooltip">
-                      <Image
-                        key={k}
-                        src={profile.image_urls[k]}
-                        alt={k}
-                        margin="5px"
-                      />
+                    <Tooltip key={k} label={k} aria-label="A tooltip">
+                      <Image src={profile.image_urls[k]} alt={k} margin="5px" />
                     </Tooltip>
                   ))}
                 </SimpleGrid>
@@ -239,7 +229,7 @@ type ProfileProps = {
     meanScore: number;
     episodesWatched: number;
     minutesWatched: number;
-  };
+  }[];
 };
 
 export const getServerSideProps = (async (context) => {
