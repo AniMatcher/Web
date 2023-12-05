@@ -59,23 +59,31 @@ const Page = ({ profile }: { profile: ProfileProps }) => {
             <StatGroup my={2}>
               <Stat>
                 <StatLabel>Count</StatLabel>
-                <StatNumber>{profile.metrics?.count}</StatNumber>
+                <StatNumber>
+                  {profile.metrics ? profile.metrics.count : 0}
+                </StatNumber>
               </Stat>
 
               <Stat>
                 <StatLabel>meanScore</StatLabel>
-                <StatNumber>{profile.metrics?.meanScore}</StatNumber>
+                <StatNumber>
+                  {profile.metrics ? profile.metrics.meanScore : 0}
+                </StatNumber>
               </Stat>
             </StatGroup>
             <StatGroup my={2}>
               <Stat>
                 <StatLabel>Episodes Watched</StatLabel>
-                <StatNumber>{profile.metrics?.episodesWatched}</StatNumber>
+                <StatNumber>
+                  {profile.metrics ? profile.metrics.episodesWatched : 0}
+                </StatNumber>
               </Stat>
 
               <Stat>
                 <StatLabel>Minutes Watched</StatLabel>
-                <StatNumber>{profile.metrics?.minutesWatched}</StatNumber>
+                <StatNumber>
+                  {profile.metrics ? profile.metrics.minutesWatched : 0}
+                </StatNumber>
               </Stat>
             </StatGroup>
           </ModalBody>
