@@ -1,5 +1,5 @@
 /* eslint-disable no-empty */
-import { Box, Flex, IconButton, Spinner } from '@chakra-ui/react';
+import { Box, Flex, IconButton } from '@chakra-ui/react';
 import { useAnimation } from 'framer-motion';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
@@ -94,7 +94,6 @@ export default function Swipes() {
           }
         );
         const profiles: ProfileProps[] = await response.json();
-
         // const fetches = profiles.map((promise: Profile) =>
         //   fetch(
         //     `${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/uuid/${promise.uuid}`,
