@@ -59,23 +59,23 @@ const Page = ({ profile }: { profile: ProfileProps }) => {
             <StatGroup my={2}>
               <Stat>
                 <StatLabel>Count</StatLabel>
-                <StatNumber>{profile.metrics.count}</StatNumber>
+                <StatNumber>{profile.metrics?.count}</StatNumber>
               </Stat>
 
               <Stat>
                 <StatLabel>meanScore</StatLabel>
-                <StatNumber>{profile.metrics.meanScore}</StatNumber>
+                <StatNumber>{profile.metrics?.meanScore}</StatNumber>
               </Stat>
             </StatGroup>
             <StatGroup my={2}>
               <Stat>
                 <StatLabel>Episodes Watched</StatLabel>
-                <StatNumber>{profile.metrics.episodesWatched}</StatNumber>
+                <StatNumber>{profile.metrics?.episodesWatched}</StatNumber>
               </Stat>
 
               <Stat>
                 <StatLabel>Minutes Watched</StatLabel>
-                <StatNumber>{profile.metrics.minutesWatched}</StatNumber>
+                <StatNumber>{profile.metrics?.minutesWatched}</StatNumber>
               </Stat>
             </StatGroup>
           </ModalBody>
@@ -134,7 +134,7 @@ const Page = ({ profile }: { profile: ProfileProps }) => {
                       {profile.genre}
                     </Text>
                   </Flex>
-                  {profile.metrics.anilist && (
+                  {profile.metrics && profile.metrics.anilist && (
                     <Button
                       _hover={{}}
                       color="white"
@@ -157,15 +157,28 @@ const Page = ({ profile }: { profile: ProfileProps }) => {
                   Edit Profile
                 </Button>
               </Link>
-              <Button
-                onClick={onOpen}
-                my={1}
-                size="lg"
-                w="100%"
-                bgColor="blue.100"
-              >
-                Metrics
-              </Button>
+              {profile.metrics && (
+                <Button
+                  onClick={onOpen}
+                  my={1}
+                  size="lg"
+                  w="100%"
+                  bgColor="blue.100"
+                >
+                  Metrics
+                </Button>
+              )}
+              <Link href="/add-metrics">
+                <Button
+                  onClick={onOpen}
+                  my={1}
+                  size="lg"
+                  w="100%"
+                  bgColor="green.100"
+                >
+                  Edit Metrics
+                </Button>
+              </Link>
             </Flex>
 
             <Spacer />
@@ -212,7 +225,7 @@ type ProfileProps = {
   image_urls: {
     [key: string]: string;
   };
-  metrics: {
+  metrics?: {
     anilist: boolean;
     count: number;
     meanScore: number;
