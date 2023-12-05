@@ -1,5 +1,5 @@
 /* eslint-disable no-empty */
-import { Flex, IconButton, Spinner } from '@chakra-ui/react';
+import { Box, Flex, IconButton, Spinner } from '@chakra-ui/react';
 import { useAnimation } from 'framer-motion';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
@@ -149,9 +149,16 @@ export default function Swipes() {
         flexDirection="column"
         gap="4"
       >
-        <Flex bg="gray.200" w="360px" h="550px" justify="center" align="center">
+        <Flex
+          bg="gray.200"
+          w="360px"
+          h={{ base: 'md', '2xl': 'lg' }}
+          justify="center"
+          align="center"
+          mt="100"
+        >
           {prof.length <= 0 || current >= prof.length ? (
-            <Spinner />
+            <Box> No more matches </Box>
           ) : (
             <Click
               image={prof[current].image_profile}

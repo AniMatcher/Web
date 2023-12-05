@@ -26,8 +26,8 @@ export default function Card({
   if (variant === 'front') {
     return (
       <ChakraBox
-        w="360px"
-        h="550px"
+        w="100%"
+        h="100%"
         border="1px solid black"
         position="absolute"
         minWidth="0"
@@ -66,8 +66,8 @@ export default function Card({
   if (variant === 'back') {
     return (
       <ChakraBox
-        w="360px"
-        h="550px"
+        w="100%"
+        h="100%"
         border="1px solid black"
         position="absolute"
         minWidth="0"
@@ -93,8 +93,10 @@ export default function Card({
           <Text>Liked Animes:</Text>
 
           <Flex flexDir="row" flexWrap="wrap" gap="2">
-            {Object.keys(animes).map((name) => {
-              return <Image draggable={false} h="100px" src={animes[name]} />;
+            {Object.keys(animes).map((name, index) => {
+              return index < 8 ? (
+                <Image draggable={false} h="100px" src={animes[name]} />
+              ) : null;
             })}
           </Flex>
         </Flex>

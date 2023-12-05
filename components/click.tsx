@@ -48,8 +48,8 @@ export default function Click({
       style={{
         perspective: '1200px',
         transformStyle: 'preserve-3d',
-        width: '360px',
-        height: '550px',
+        width: '100%',
+        height: '100%',
       }}
     >
       <motion.div
@@ -80,6 +80,9 @@ export default function Click({
               zIndex: isFlipped ? 0 : 1,
               backfaceVisibility: 'hidden',
               position: 'absolute',
+              alignItems: 'center',
+              justifyContent: 'center',
+              display: 'flex',
             }}
           >
             <Card
