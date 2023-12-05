@@ -32,6 +32,27 @@ import * as Yup from 'yup';
 
 import Layout from '../components/layout';
 
+const genreList = [
+  'Action',
+  'Adventure',
+  'Comedy',
+  'Drama',
+  'Ecchi',
+  'Fantasy',
+  'Horror',
+  'Mahou Shoujo',
+  'Mecha',
+  'Music',
+  'Mystery',
+  'Psychological',
+  'Romance',
+  'Sci-Fi',
+  'Slice of Life',
+  'Sports',
+  'Supernatural',
+  'Thriller',
+];
+
 export default function App() {
   const { status, data } = useSession();
   const toast = useToast();
@@ -116,7 +137,7 @@ export default function App() {
               malepref: false,
               femalepref: false,
               nonbinarypref: false,
-              genre: 'Shonen',
+              genre: '',
               bio: '',
               pref: 0,
             }}
@@ -253,6 +274,7 @@ export default function App() {
                     <AlertIcon />
                     <AlertDescription>{filemessage}</AlertDescription>
                   </Alert>
+
                   <FormControl
                     isInvalid={!!errors.genderSelect && touched.genderSelect}
                   >
@@ -275,6 +297,27 @@ export default function App() {
                       <option value="nonbinary">Nonbinary</option>
                     </Field>
                     <FormErrorMessage>{errors.genderSelect}</FormErrorMessage>
+                  </FormControl>
+                  <FormControl isInvalid={!!errors.genre && touched.genre}>
+                    <FormLabel htmlFor="genre">Genre</FormLabel>
+                    <Field
+                      as={Select}
+                      placeholder="Select"
+                      id="genre"
+                      name="genre"
+                      validate={(value: string) => {
+                        let error;
+                        if (value === 'Select') {
+                          error = 'Select not valid genre';
+                        }
+                        return error;
+                      }}
+                    >
+                      {genreList.map((itm) => (
+                        <option>{itm}</option>
+                      ))}
+                    </Field>
+                    <FormErrorMessage>{errors.genre}</FormErrorMessage>
                   </FormControl>
                   <FormControl>
                     <FormLabel htmlFor="preferences">Preferences</FormLabel>

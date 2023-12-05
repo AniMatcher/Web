@@ -26,6 +26,27 @@ import Layout from '../components/layout';
 
 import { authOptions } from './api/auth/[...nextauth]';
 
+const genreList = [
+  'Action',
+  'Adventure',
+  'Comedy',
+  'Drama',
+  'Ecchi',
+  'Fantasy',
+  'Horror',
+  'Mahou Shoujo',
+  'Mecha',
+  'Music',
+  'Mystery',
+  'Psychological',
+  'Romance',
+  'Sci-Fi',
+  'Slice of Life',
+  'Sports',
+  'Supernatural',
+  'Thriller',
+];
+
 function IndexPage({ data }: { data: Profile }) {
   const toast = useToast();
   const { push } = useRouter();
@@ -100,7 +121,7 @@ function IndexPage({ data }: { data: Profile }) {
               data.sex_pref === 'E' ||
               data.sex_pref === 'F' ||
               data.sex_pref === 'G',
-            genre: data.genre,
+            genre: data.genre.length <= 1 ? 'Action' : data.genre,
             bio: data.bio,
           }}
           onSubmit={async (values) => {
@@ -186,6 +207,27 @@ function IndexPage({ data }: { data: Profile }) {
                       <option value="NB">Nonbinary</option>
                     </Field>
                     <FormErrorMessage>{errors.genderSelect}</FormErrorMessage>
+                  </FormControl>
+                  <FormControl isInvalid={!!errors.genre}>
+                    <FormLabel htmlFor="genre">Genre</FormLabel>
+                    <Field
+                      as={Select}
+                      placeholder="Select"
+                      id="genre"
+                      name="genre"
+                      validate={(value: string) => {
+                        let error;
+                        if (value === 'Select') {
+                          error = 'Select not valid genre';
+                        }
+                        return error;
+                      }}
+                    >
+                      {genreList.map((itm) => (
+                        <option>{itm}</option>
+                      ))}
+                    </Field>
+                    <FormErrorMessage>{errors.genre}</FormErrorMessage>
                   </FormControl>
                   <FormControl>
                     <FormLabel htmlFor="preferences">Preferences</FormLabel>

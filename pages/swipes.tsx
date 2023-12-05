@@ -10,15 +10,15 @@ import { IoMdRefresh } from 'react-icons/io';
 import Click from '../components/click';
 import Layout from '../components/layout';
 
-type Profile = {
-  id: string;
-  uuid: string;
-  username: string;
-  gender: string;
-  sex_pref: string;
-  genre: string;
-  bio: string;
-};
+// type Profile = {
+//   id: string;
+//   uuid: string;
+//   username: string;
+//   gender: string;
+//   sex_pref: string;
+//   genre: string;
+//   bio: string;
+// };
 
 type ProfileProps = {
   id: number;
@@ -29,7 +29,7 @@ type ProfileProps = {
   genre: string;
   bio: string;
   image_profile: string;
-  image_urls: { [key: string]: string };
+  image_urls: string[];
 };
 
 export default function Swipes() {
@@ -93,25 +93,25 @@ export default function Swipes() {
             },
           }
         );
-        const profiles = await response.json();
+        const profiles: ProfileProps[] = await response.json();
 
-        const fetches = profiles.map((promise: Profile) =>
-          fetch(
-            `${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/uuid/${promise.uuid}`,
-            {
-              method: 'GET',
-              headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Content-Type': 'application/json',
-              },
-            }
-          ).then((res) => res.json())
-        );
-        const profs = await Promise.all(fetches);
-        const promises = profs.map((promise) => {
-          return promise;
-        });
-        setProfile(promises); // Now we are setting the resolved values
+        // const fetches = profiles.map((promise: Profile) =>
+        //   fetch(
+        //     `${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/uuid/${promise.uuid}`,
+        //     {
+        //       method: 'GET',
+        //       headers: {
+        //         'Access-Control-Allow-Origin': '*',
+        //         'Content-Type': 'application/json',
+        //       },
+        //     }
+        //   ).then((res) => res.json())
+        // );
+        // const profs = await Promise.all(fetches);
+        // const promises = profs.map((promise) => {
+        //   return promise;
+        // });
+        setProfile(profiles); // Now we are setting the resolved values
       } catch (err) {}
     }
   };

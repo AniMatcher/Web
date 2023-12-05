@@ -140,7 +140,7 @@ export default function Page() {
                         duration: 3000,
                         isClosable: true,
                       });
-                      push('/profile');
+                      push('/add-metrics');
                     } else {
                       toast({
                         title: 'ERROR Occurred',

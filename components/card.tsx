@@ -9,7 +9,7 @@ interface CardProps {
   gender: string;
   animation: AnimationControls;
   variant: 'front' | 'back';
-  animes: { [key: string]: string };
+  animes: string[];
 }
 
 const ChakraBox = motion(Box);
@@ -93,9 +93,9 @@ export default function Card({
           <Text>Liked Animes:</Text>
 
           <Flex flexDir="row" flexWrap="wrap" gap="2">
-            {Object.keys(animes).map((name, index) => {
+            {animes.map((name, index) => {
               return index < 8 ? (
-                <Image draggable={false} h="100px" src={animes[name]} />
+                <Image draggable={false} h="100px" src={name} />
               ) : null;
             })}
           </Flex>

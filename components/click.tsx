@@ -17,7 +17,7 @@ interface CardProps {
   bio: string;
   gender: string;
   animation: AnimationControls;
-  animes: { [key: string]: string };
+  animes: string[];
   isFlipped: boolean;
   setIsFlipped: Dispatch<SetStateAction<boolean>>;
 }
