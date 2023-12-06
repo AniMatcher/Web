@@ -140,11 +140,11 @@ export default function Header() {
         position="sticky"
         color="white"
       >
-        <Flex align="left" ml={5}>
+        <Flex align="left" m={5}>
           <Heading
             alignItems="center"
             as="h1"
-            size={{ base: 'xl' }}
+            size={{ base: 'xl', xl: '2xl' }}
             letterSpacing="-.1rem"
           >
             <Link href="/">AniMatcher</Link>
@@ -164,22 +164,22 @@ export default function Header() {
           ) : status === 'authenticated' ? (
             <>
               <Link href="/swipes">
-                <Button size={{ base: 'md', '2xl': 'lg' }} bg="pink.100">
+                <Button size={{ base: 'md', xl: 'lg' }} bg="pink.100">
                   Find Love
                 </Button>
               </Link>
               <Link href="/matches">
-                <Button size={{ base: 'md', '2xl': 'lg' }} bg="green.100">
+                <Button size={{ base: 'md', xl: 'lg' }} bg="green.100">
                   Matches
                 </Button>
               </Link>
               <Link href="/profile">
-                <Button size={{ base: 'md', '2xl': 'lg' }} bg="brand.200">
+                <Button size={{ base: 'md', xl: 'lg' }} bg="brand.200">
                   Profile
                 </Button>
               </Link>
               <Button
-                size={{ base: 'md', '2xl': 'lg' }}
+                size={{ base: 'md', xl: 'lg' }}
                 onClick={() => signOut()}
                 bg="brand.800"
               >
