@@ -293,7 +293,7 @@ export default function Home() {
                   height="200px"
                 >
                   <Text fontSize="24" mb={6} maxWidth="3xl" textAlign="center">
-                    Blending cutting-edge technology with a deep for Japanese{' '}
+                    Blending cutting-edge technology with a deep{' '}
                     <Text
                       as="span"
                       color="#E886A4"
@@ -302,8 +302,8 @@ export default function Home() {
                     >
                       love
                     </Text>{' '}
-                    animation to spark meaningful connections that resonate on a
-                    personal level
+                    for Japanese animation to spark meaningful connections that
+                    resonate on a personal level
                   </Text>
                 </Box>
               </ChakraBox>
