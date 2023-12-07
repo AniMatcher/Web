@@ -47,7 +47,7 @@ export default function Page() {
     return (
       <Layout>
         <Flex>
-          <Box w="50%">
+          <Box m={4} mx={8} w="50%">
             <Heading>Search</Heading>
             <Input
               my={5}
@@ -64,30 +64,42 @@ export default function Page() {
               }}
             />
             <Box>
-              {autoCompleteRes.map((v: AnimeSearch) => (
-                <Flex
-                  my={1}
-                  p={4}
-                  onClick={() => {
-                    if (!highlightAnime.includes(v)) {
-                      SetHighlightAnime(highlightAnime.concat([v]));
-                    }
-                  }}
-                  borderWidth="1px"
-                  borderRadius="lg"
-                  alignItems="center"
+              {autoCompleteRes.length > 0 ? (
+                autoCompleteRes.map((v: AnimeSearch) => (
+                  <Flex
+                    my={1}
+                    p={4}
+                    onClick={() => {
+                      if (!highlightAnime.includes(v)) {
+                        SetHighlightAnime(highlightAnime.concat([v]));
+                      }
+                    }}
+                    borderWidth="1px"
+                    borderRadius="lg"
+                    alignItems="center"
+                  >
+                    <Image
+                      height={20}
+                      width={20}
+                      src={v.image_url}
+                      alt="anime text"
+                    />
+                    <Text fontSize="xl" mx={4} size="xl">
+                      {v.anime_name}
+                    </Text>
+                  </Flex>
+                ))
+              ) : (
+                <Box
+                  border="1px black dotted"
+                  mt={8}
+                  rounded="lg"
+                  bg="gray.200"
+                  p={8}
                 >
-                  <Image
-                    height={20}
-                    width={20}
-                    src={v.image_url}
-                    alt="anime text"
-                  />
-                  <Text fontSize="xl" mx={4} size="xl">
-                    {v.anime_name}
-                  </Text>
-                </Flex>
-              ))}
+                  <Heading size="md">Start typing anime name!</Heading>
+                </Box>
+              )}
             </Box>
           </Box>
           <Box p={2} h="100%" borderLeft="4px" mx={8} w="100%">

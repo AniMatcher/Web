@@ -193,7 +193,6 @@ export default function App() {
                   image: imgBase,
                   image_name: imgFile,
                 };
-
                 // alert(JSON.stringify(postVal));
                 const resp = await fetch(
                   `${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/new-user/`,

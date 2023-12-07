@@ -169,21 +169,30 @@ type NewUserProps = {
 export const getServerSideProps = async (context: any) => {
   const session = await getServerSession(context.req, context.res, authOptions);
   if (session) {
-    const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/uuid/${session.uuid}`;
-    const query = await fetch(url, {
-      method: 'GET',
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-      },
-    });
-    if (query.status === 200) {
+    if (session.uuid) {
       return {
         redirect: {
           permanent: true,
-          destination: '/login',
+          destination: '/profile',
         },
       };
     }
+
+    // const url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/uuid/${session.uuid}`;
+    // const query = await fetch(url, {
+    //   method: 'GET',
+    //   headers: {
+    //     'Access-Control-Allow-Origin': '*',
+    //   },
+    // });
+    // if (query.status === 200) {
+    //   return {
+    //     redirect: {
+    //       permanent: true,
+    //       destination: '/profile',
+    //     },
+    //   };
+    // }
     if (session.user?.email) {
       return {
         props: {

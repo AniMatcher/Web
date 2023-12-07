@@ -20,10 +20,11 @@ import {
   Heading,
   Spinner,
   IconButton,
+  Spacer,
 } from '@chakra-ui/react';
 import type { InferGetServerSidePropsType, GetServerSideProps } from 'next';
 import { getServerSession } from 'next-auth/next';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { IoSend } from 'react-icons/io5';
 
 import Layout from '../components/layout';
@@ -76,15 +77,16 @@ type ChatWindowProps = {
 
 function ChatWindow({ user_uid, chat_id, chatMsg }: ChatWindowProps) {
   const [text, SetText] = useState('');
+
   return (
-    <Box p={4} w="100%" h="100%">
-      <SimpleGrid columns={2} w="100%" h="90%" flexGrow={1} overflowY="scroll">
+    <Flex direction="column" p={4} w="100%" h="100%">
+      <SimpleGrid columns={2} w="100%" flexGrow={1} overflowY="scroll">
         {chatMsg.data.map((i) => (
           <>
             {i.author_id === user_uid && <Box />}
             <Box
               rounded="lg"
-              w="50%"
+              w={{ base: '100%', md: '50%' }}
               alignContent={
                 i.author_id === user_uid ? 'flex-end' : 'flex-start'
               }
@@ -98,12 +100,13 @@ function ChatWindow({ user_uid, chat_id, chatMsg }: ChatWindowProps) {
             {i.author_id !== user_uid && <Box />}
           </>
         ))}
+        <Box />
       </SimpleGrid>
-
-      <Flex p={4}>
+      <Spacer />
+      <Flex p={{ base: 0, md: 4 }}>
         <Input
           onKeyDown={async (e) => {
-            if (e.key === 'enter') {
+            if (e.key === 'Enter') {
               await supabase.from('messages').insert([
                 {
                   text,
@@ -140,7 +143,7 @@ function ChatWindow({ user_uid, chat_id, chatMsg }: ChatWindowProps) {
           icon={<Icon as={IoSend} />}
         />
       </Flex>
-    </Box>
+    </Flex>
   );
 }
 
@@ -251,7 +254,14 @@ function Matches({ matches }: { matches: MatchProps }) {
         <Heading p={2} border="1px solid black">
           Chat:
         </Heading>
-        <Flex mt={-4} border="1px solid black" flexShrink={0} w="100%" h="75vh">
+        <Flex
+          direction={{ base: 'column', md: 'row' }}
+          mt={-4}
+          border="1px solid black"
+          flexShrink={0}
+          w="100%"
+          h="75vh"
+        >
           <Flex
             overflowY="scroll"
             border="1px solid black"
@@ -273,11 +283,15 @@ function Matches({ matches }: { matches: MatchProps }) {
               </Flex>
             ))}
           </Flex>
-          <Flex border="1px solid black" bg="gray.200" w="80%">
+          <Flex
+            border="1px solid black"
+            bg="gray.200"
+            w={{ base: '100%', md: '80%' }}
+          >
             {loadingChat ? (
               <Spinner size="xl" />
             ) : activeChat !== '' ? (
-              <Box>
+              <Box minH="100%" minW={{ base: '100%', md: '80%' }}>
                 <ChatWindow
                   chatMsg={chatMsg}
                   chat_id={activeChat}

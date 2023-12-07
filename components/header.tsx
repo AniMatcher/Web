@@ -28,7 +28,9 @@ import { useSession, signIn, signOut } from 'next-auth/react';
 import React, { useState, useEffect } from 'react';
 import { AiOutlineMenu } from 'react-icons/ai';
 import { BsArrowThroughHeartFill } from 'react-icons/bs';
-import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import { FaChevronDown, FaChevronUp, FaHome } from 'react-icons/fa';
+import { MdSwipeRight, MdGroup } from 'react-icons/md';
+import { CgProfile } from 'react-icons/cg';
 
 type MyDrawerProps = {
   isOpen: boolean;
@@ -51,7 +53,11 @@ function MyDrawer({ isOpen, onClose }: MyDrawerProps) {
 
         <DrawerBody mr="30px">
           <VStack spacing={5} align="stretch" textAlign="center">
-            <Link href="/">Home</Link>
+            <Link href="/">
+              <Button leftIcon={<Icon as={FaHome} />} w="100%" bg="blue.100">
+                Home
+              </Button>
+            </Link>
             {status === 'loading' && (
               <Button border="1px" colorScheme="blue" isLoading>
                 Loading..
@@ -61,17 +67,41 @@ function MyDrawer({ isOpen, onClose }: MyDrawerProps) {
               <Button
                 border="1px"
                 color="brand.100"
-                onClick={(e) => {
-                  e.preventDefault();
-                  signIn('google');
-                }}
+                onClick={() => signIn('google', { callbackUrl: '/new-user' })}
               >
                 Login
               </Button>
             ) : (
               <>
+                <Link href="/swipes">
+                  <Button
+                    leftIcon={<Icon as={MdSwipeRight} />}
+                    w="100%"
+                    bg="pink.100"
+                  >
+                    Find Love
+                  </Button>
+                </Link>
+                <Link href="/matches">
+                  <Button
+                    leftIcon={<Icon as={MdGroup} />}
+                    w="100%"
+                    bg="green.100"
+                  >
+                    Matches
+                  </Button>
+                </Link>
+                <Link href="/profile">
+                  <Button
+                    leftIcon={<Icon as={CgProfile} />}
+                    w="100%"
+                    bg="brand.200"
+                  >
+                    Profile
+                  </Button>
+                </Link>
                 <Button bg="brand.800" onClick={handleToggle}>
-                  Profile&nbsp;{show ? <FaChevronUp /> : <FaChevronDown />}
+                  Login Info&nbsp;{show ? <FaChevronUp /> : <FaChevronDown />}
                 </Button>
                 <Collapse in={show} animateOpacity>
                   <VStack spacing="30px">

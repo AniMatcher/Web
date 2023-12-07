@@ -196,11 +196,14 @@ const Page = ({ profile }: { profile: ProfileProps }) => {
                 alignContent="center"
               >
                 <SimpleGrid columns={{ base: 2, sm: 3, md: 4 }}>
-                  {Object.keys(profile.image_urls).map((k: string) => (
-                    <Tooltip key={k} label={k} aria-label="A tooltip">
-                      <Image src={profile.image_urls[k]} alt={k} margin="5px" />
-                    </Tooltip>
-                  ))}
+                  {profile.image_json.map((o: AnimeImageArr) => {
+                    const k = Object.keys(o)[0];
+                    return (
+                      <Tooltip key={k} label={k} aria-label="A tooltip">
+                        <Image src={o[k]} alt={k} margin="5px" />
+                      </Tooltip>
+                    );
+                  })}
                 </SimpleGrid>
               </Flex>
             </Flex>
@@ -211,8 +214,11 @@ const Page = ({ profile }: { profile: ProfileProps }) => {
   );
 };
 
+type AnimeImageArr = {
+  [key: string]: string;
+};
+
 type ProfileProps = {
-  id: number;
   uuid: string;
   username: string;
   gender: string;
@@ -220,9 +226,7 @@ type ProfileProps = {
   genre: string;
   bio: string;
   image_profile: string;
-  image_urls: {
-    [key: string]: string;
-  };
+  image_json: AnimeImageArr[];
   metrics?: {
     anilist: boolean;
     count: number;
@@ -243,7 +247,7 @@ export const getServerSideProps = (async (context) => {
       },
     });
     if (query.status === 200) {
-      const response: ProfileProps = await query.json();
+      const response: ProfileProps = (await query.json()).data;
       return { props: { response } };
     }
     return {
