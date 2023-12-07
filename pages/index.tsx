@@ -12,11 +12,11 @@ import {
 import type { Variants } from 'framer-motion';
 import { motion, isValidMotionProp } from 'framer-motion';
 import { useSession } from 'next-auth/react';
+import { useEffect, useState } from 'react';
 import { BsArrowThroughHeartFill } from 'react-icons/bs';
 
 import * as animation from '../components/animation';
 import Layout from '../components/layout';
-import { useEffect, useState } from 'react';
 
 const cardVariants: Variants = {
   offscreen: {
@@ -195,7 +195,6 @@ export default function Home() {
             >
               <Text fontSize="3xl">Goal 2</Text>
             </GridItem>
-            <GridItem></GridItem>
           </Grid>
         </>
       )}

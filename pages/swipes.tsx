@@ -1,5 +1,5 @@
 /* eslint-disable no-empty */
-import { Box, Button, Flex, IconButton } from '@chakra-ui/react';
+import { Box, Flex, IconButton } from '@chakra-ui/react';
 import { useAnimation } from 'framer-motion';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
@@ -9,17 +9,6 @@ import { IoMdRefresh } from 'react-icons/io';
 
 import Click from '../components/click';
 import Layout from '../components/layout';
-import { Profile } from 'next-auth';
-
-// type Profile = {
-//   id: string;
-//   uuid: string;
-//   username: string;
-//   gender: string;
-//   sex_pref: string;
-//   genre: string;
-//   bio: string;
-// };
 
 type ProfileProps = {
   id: number;
@@ -134,7 +123,8 @@ export default function Swipes() {
         gap="4"
       >
         <Flex
-          bg="gray.200"
+          bgColor={prof.length <= 0 ? 'gray.200' : 'white'}
+          rounded="3xl"
           w="360px"
           h={{ base: 'md', '2xl': 'lg' }}
           justify="center"
@@ -142,7 +132,9 @@ export default function Swipes() {
           mt="100"
         >
           {prof.length <= 0 ? (
-            <Box> No more matches </Box>
+            <Box fontSize="3xl" fontWeight="bold" textAlign="center">
+              Come back for more matches
+            </Box>
           ) : (
             <Click
               image={prof[0].image_profile}
