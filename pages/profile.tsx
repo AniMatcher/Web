@@ -200,7 +200,12 @@ const Page = ({ profile }: { profile: ProfileProps }) => {
                     const k = Object.keys(o)[0];
                     return (
                       <Tooltip key={k} label={k} aria-label="A tooltip">
-                        <Image src={o[k]} alt={k} margin="5px" />
+                        <Image
+                          src={o[k]}
+                          alt={k}
+                          objectFit="cover"
+                          margin="5px"
+                        />
                       </Tooltip>
                     );
                   })}

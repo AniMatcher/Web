@@ -26,11 +26,9 @@ let prof: ProfileProps[] = [];
 
 export default function Swipes() {
   const { data, status } = useSession();
-  // const [prof, setProfile] = useState<ProfileProps[]>([]); // Implement the swipe left and swipe right functions
-
   const animationControl = useAnimation();
   const [disabledButton, setDisabled] = useState(false);
-  // const [current, setCurrent] = useState(0);
+  const [updated, setUpdated] = useState(false);
   const [isFlipped, setIsFlipped] = useState(false);
 
   const tinderSlide = async (swipe: boolean) => {
@@ -82,7 +80,8 @@ export default function Swipes() {
           }
         );
         const profiles: ProfileProps[] = await response.json();
-        prof = prof.concat(profiles); // Now we are setting the resolved values
+        prof = prof.concat(profiles);
+        setUpdated(true);
       } catch (err) {}
     }
   };
@@ -93,7 +92,15 @@ export default function Swipes() {
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status, prof.length]);
+  }, [prof.length]);
+
+  useEffect(() => {
+    if (status === 'authenticated') {
+      fetchMatches();
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status]);
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -131,7 +138,7 @@ export default function Swipes() {
           align="center"
           mt="100"
         >
-          {prof.length <= 0 ? (
+          {prof.length <= 0 || !updated ? (
             <Box fontSize="3xl" fontWeight="bold" textAlign="center">
               Come back for more matches
             </Box>

@@ -102,6 +102,8 @@ export default function Card({
                   w="71px"
                   objectFit="cover"
                   src={name}
+                  // eslint-disable-next-line react/no-array-index-key
+                  key={index}
                 />
               ) : null;
             })}
