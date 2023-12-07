@@ -140,6 +140,30 @@ export default function Header() {
   const { status } = useSession();
   const path = usePathname();
   const [NavBarScrolled, setNavbar] = useState(false);
+  const buttonStyle = {
+    size: { base: 'md', xl: 'lg' },
+    bg: 'transparent',
+    color: 'white',
+    position: 'relative' as const, // Needed for positioning the pseudo-element
+    _hover: {
+      _after: {
+        content: `""`,
+        position: 'absolute',
+        bottom: '0', // Adjust as needed for correct positioning
+        left: '50%',
+        transform: 'translateX(-50%)',
+        width: '5px',
+        height: '5px',
+        borderRadius: '50%',
+        backgroundColor: 'white',
+        display: 'block',
+      },
+    },
+    _after: {
+      content: `""`,
+      display: 'none',
+    },
+  };
   useEffect(() => {
     if (path === '/') {
       window.addEventListener('scroll', () => {
@@ -182,8 +206,8 @@ export default function Header() {
           </Heading>
         </Flex>
         <HStack
-          display={{ base: 'none', md: 'flex' }}
-          width={{ base: 'full', md: 'auto' }}
+          display={{ base: 'none', lg: 'flex' }}
+          width={{ base: 'full', lg: 'auto' }}
           alignItems="center"
           m={4}
           spacing={4}
@@ -194,25 +218,15 @@ export default function Header() {
           ) : status === 'authenticated' ? (
             <>
               <Link href="/swipes">
-                <Button size={{ base: 'md', xl: 'lg' }} bg="pink.100">
-                  Find Love
-                </Button>
+                <Button {...buttonStyle}>Find Love</Button>
               </Link>
               <Link href="/matches">
-                <Button size={{ base: 'md', xl: 'lg' }} bg="green.100">
-                  Matches
-                </Button>
+                <Button {...buttonStyle}>Matches</Button>
               </Link>
               <Link href="/profile">
-                <Button size={{ base: 'md', xl: 'lg' }} bg="brand.200">
-                  Profile
-                </Button>
+                <Button {...buttonStyle}>Profile</Button>
               </Link>
-              <Button
-                size={{ base: 'md', xl: 'lg' }}
-                onClick={() => signOut()}
-                bg="brand.800"
-              >
+              <Button {...buttonStyle} onClick={() => signOut()}>
                 Logout
               </Button>
             </>
@@ -220,6 +234,28 @@ export default function Header() {
             <Button
               size="lg"
               bg="brand.800"
+              // bg = "transparent"
+              // color = "white"
+              // _hover={{ bg: "transparent", color: "white" }}
+              // position="relative" // Needed to position the ::after pseudo-element
+              // _hover={{
+              //   _after: {
+              //     content: `""`, // The content of the ::after pseudo-element; empty string is necessary
+              //     position: "absolute",
+              //     bottom: "-0.5px", // Position the dot below the button text
+              //     left: "50%", // Center the dot horizontally
+              //     transform: "translateX(-50%)", // Ensure the center of the dot aligns with the center of the text
+              //     width: "5px", // The width of the dot
+              //     height: "5px", // The height of the dot
+              //     borderRadius: "50%", // Make the dot circular
+              //     backgroundColor: "white", // The color of the dot
+              //     display: "block", // Change the display from none to block on hover
+              //   },
+              // }}
+              // _after={{
+              //   content: `""`,
+              //   display: "none", // Hide the dot by default
+              // }}
               onClick={() => signIn('google', { callbackUrl: '/new-user' })}
             >
               Sign In
@@ -231,7 +267,7 @@ export default function Header() {
           onClick={onOpen}
           display={{
             base: 'flex',
-            md: 'none',
+            lg: 'none',
           }}
           aria-label="Open menu"
           mx={3}

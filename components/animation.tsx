@@ -31,6 +31,7 @@ const hide = keyframes({
     zIndex: '3',
   },
   '100%': {
+    width: '100vw',
     opacity: '0',
     zIndex: '-3',
   },
