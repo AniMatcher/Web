@@ -148,7 +148,7 @@ export default function Swipes() {
             />
           )}
           {prof.length > 1 && (
-            <Image src={prof[1].image_profile} loading="eager" />
+            <Image src={prof[1].image_profile} loading="eager" hidden />
           )}
         </Flex>
 
