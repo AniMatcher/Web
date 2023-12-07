@@ -195,7 +195,7 @@ export default function Home() {
                 flexDirection="column"
               >
                 <Text
-                  fontSize="72"
+                  fontSize={{ base: '3xl', md: '5xl' }}
                   maxWidth="3xl"
                   textAlign="center"
                   fontWeight="medium"
