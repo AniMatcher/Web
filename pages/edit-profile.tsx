@@ -321,7 +321,7 @@ export const getServerSideProps = async (context: any) => {
         'Access-Control-Allow-Origin': '*',
       },
     });
-    const response: Profile = await query.json();
+    const response: Profile = (await query.json()).data;
 
     if (query.status === 200) {
       return {
