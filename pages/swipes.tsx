@@ -133,7 +133,7 @@ export default function Swipes() {
           bgColor={prof.length <= 0 ? 'gray.200' : 'white'}
           rounded="3xl"
           w="360px"
-          h={{ base: 'lg', lg: 'md', xl: 'md', '2xl': 'lg' }}
+          h={{ base: 'md', '2xl': 'lg' }}
           justify="center"
           align="center"
           mt="100"
