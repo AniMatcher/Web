@@ -73,7 +73,7 @@ export default function Card({
         minWidth="0"
         margin="auto"
         rounded="lg"
-        bgColor="gray.100"
+        bgColor="white"
         boxShadow="md"
         bgSize="cover"
         animate={animation}
@@ -95,7 +95,13 @@ export default function Card({
           <Flex flexDir="row" flexWrap="wrap" gap="2">
             {animes.map((name, index) => {
               return index < 8 ? (
-                <Image draggable={false} h="100px" src={name} />
+                <Image
+                  draggable={false}
+                  h="100px"
+                  w="71px"
+                  objectFit="cover"
+                  src={name}
+                />
               ) : null;
             })}
           </Flex>

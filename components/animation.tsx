@@ -12,8 +12,8 @@ const spin = keyframes({
     height: '100vh',
   },
   '100%': {
-    transform: 'translateY(0px) scale(1)',
     opacity: 0,
+    transform: 'translateY(0px) scale(1)',
   },
 });
 const spinAnimation = `${spin} 3s cubic-bezier(.4,.37,0,.99) forwards`;

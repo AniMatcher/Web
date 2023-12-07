@@ -1,5 +1,5 @@
 /* eslint-disable no-empty */
-import { Box, Flex, IconButton } from '@chakra-ui/react';
+import { Box, Button, Flex, IconButton } from '@chakra-ui/react';
 import { useAnimation } from 'framer-motion';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
@@ -9,6 +9,7 @@ import { IoMdRefresh } from 'react-icons/io';
 
 import Click from '../components/click';
 import Layout from '../components/layout';
+import { Profile } from 'next-auth';
 
 // type Profile = {
 //   id: string;
@@ -32,12 +33,15 @@ type ProfileProps = {
   image_urls: string[];
 };
 
+let prof: ProfileProps[] = [];
+
 export default function Swipes() {
   const { data, status } = useSession();
-  const [prof, setProfile] = useState<ProfileProps[]>([]); // Implement the swipe left and swipe right functions
+  // const [prof, setProfile] = useState<ProfileProps[]>([]); // Implement the swipe left and swipe right functions
+
   const animationControl = useAnimation();
   const [disabledButton, setDisabled] = useState(false);
-  const [current, setCurrent] = useState(0);
+  // const [current, setCurrent] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
 
   const tinderSlide = async (swipe: boolean) => {
@@ -55,9 +59,6 @@ export default function Swipes() {
           rotate: 0,
           transition: { duration: 0 },
         });
-        if (current < prof.length) {
-          setCurrent(current + 1);
-        }
       });
   };
 
@@ -72,19 +73,17 @@ export default function Swipes() {
         },
         body: JSON.stringify({
           uuid: data?.uuid,
-          liked_uuid: prof[current].uuid,
+          liked_uuid: prof[0].uuid,
         }),
       });
     } catch (err) {}
   };
 
   const fetchMatches = async () => {
-    setProfile([]);
-    setCurrent(0);
     if (status === 'authenticated') {
       try {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/matches?uuid=${data.uuid}&num=10`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/user/matches?uuid=${data.uuid}&num=7`,
           {
             method: 'GET',
             headers: {
@@ -94,31 +93,18 @@ export default function Swipes() {
           }
         );
         const profiles: ProfileProps[] = await response.json();
-        // const fetches = profiles.map((promise: Profile) =>
-        //   fetch(
-        //     `${process.env.NEXT_PUBLIC_BACKEND_URL}/profile/uuid/${promise.uuid}`,
-        //     {
-        //       method: 'GET',
-        //       headers: {
-        //         'Access-Control-Allow-Origin': '*',
-        //         'Content-Type': 'application/json',
-        //       },
-        //     }
-        //   ).then((res) => res.json())
-        // );
-        // const profs = await Promise.all(fetches);
-        // const promises = profs.map((promise) => {
-        //   return promise;
-        // });
-        setProfile(profiles); // Now we are setting the resolved values
+        prof = prof.concat(profiles); // Now we are setting the resolved values
       } catch (err) {}
     }
   };
 
   useEffect(() => {
-    fetchMatches();
+    if (prof.length < 3) {
+      fetchMatches();
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status]);
+  }, [prof.length]);
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -144,7 +130,6 @@ export default function Swipes() {
         h="100vh"
         w="100vw"
         top="0"
-        bgColor="gray.50"
         flexDirection="column"
         gap="4"
       >
@@ -156,16 +141,16 @@ export default function Swipes() {
           align="center"
           mt="100"
         >
-          {prof.length <= 0 || current >= prof.length ? (
+          {prof.length <= 0 ? (
             <Box> No more matches </Box>
           ) : (
             <Click
-              image={prof[current].image_profile}
-              username={prof[current].username}
-              bio={prof[current].bio}
-              gender={prof[current].gender}
+              image={prof[0].image_profile}
+              username={prof[0].username}
+              bio={prof[0].bio}
+              gender={prof[0].gender}
               animation={animationControl}
-              animes={prof[current].image_urls}
+              animes={prof[0].image_urls}
               isFlipped={isFlipped}
               setIsFlipped={setIsFlipped}
             />
@@ -198,6 +183,9 @@ export default function Swipes() {
               setIsFlipped(false);
               tinderSlide(true);
               setDisabled(true);
+              setTimeout(() => {
+                prof.shift();
+              }, 250);
             }}
             isDisabled={disabledButton}
           />
@@ -233,6 +221,9 @@ export default function Swipes() {
               setIsFlipped(false);
               likeUser();
               tinderSlide(false);
+              setTimeout(() => {
+                prof.shift();
+              }, 250);
               setDisabled(true);
             }}
             isDisabled={disabledButton}
