@@ -14,12 +14,11 @@ import type { Variants } from 'framer-motion';
 import { motion, isValidMotionProp } from 'framer-motion';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
-import { BsArrowThroughHeartFill, BsArrowDownShort } from 'react-icons/bs';
+import { BsArrowThroughHeartFill } from 'react-icons/bs';
 import { GiOppositeHearts } from 'react-icons/gi';
 
 import * as animation from '../components/animation';
 import Layout from '../components/layout';
-import { useEffect, useState } from 'react';
 
 const cardVariants: Variants = {
   offscreen: {
@@ -45,12 +44,9 @@ export default function Home() {
   const { status } = useSession();
   const [timer, setTimer] = useState(0);
 
-  const [timer, setTimer] = useState(0);
-
   if (status === 'loading') {
     <Flex
       position="fixed"
-      width="full"
       width="full"
       height="100vh"
       bgColor="#1a1a1a"
