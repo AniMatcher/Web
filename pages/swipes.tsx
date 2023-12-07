@@ -93,7 +93,7 @@ export default function Swipes() {
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [prof.length]);
+  }, [status, prof.length]);
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -177,7 +177,7 @@ export default function Swipes() {
               setDisabled(true);
               setTimeout(() => {
                 prof.shift();
-              }, 250);
+              }, 150);
             }}
             isDisabled={disabledButton}
           />
@@ -215,7 +215,7 @@ export default function Swipes() {
               tinderSlide(false);
               setTimeout(() => {
                 prof.shift();
-              }, 250);
+              }, 150);
               setDisabled(true);
             }}
             isDisabled={disabledButton}
