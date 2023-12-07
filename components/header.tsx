@@ -28,9 +28,9 @@ import { useSession, signIn, signOut } from 'next-auth/react';
 import React, { useState, useEffect } from 'react';
 import { AiOutlineMenu } from 'react-icons/ai';
 import { BsArrowThroughHeartFill } from 'react-icons/bs';
+import { CgProfile } from 'react-icons/cg';
 import { FaChevronDown, FaChevronUp, FaHome } from 'react-icons/fa';
 import { MdSwipeRight, MdGroup } from 'react-icons/md';
-import { CgProfile } from 'react-icons/cg';
 
 type MyDrawerProps = {
   isOpen: boolean;

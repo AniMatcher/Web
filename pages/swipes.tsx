@@ -1,5 +1,5 @@
 /* eslint-disable no-empty */
-import { Box, Flex, IconButton } from '@chakra-ui/react';
+import { Box, Flex, IconButton, Image } from '@chakra-ui/react';
 import { useAnimation } from 'framer-motion';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
@@ -146,6 +146,9 @@ export default function Swipes() {
               isFlipped={isFlipped}
               setIsFlipped={setIsFlipped}
             />
+          )}
+          {prof.length > 1 && (
+            <Image src={prof[1].image_profile} loading="eager" />
           )}
         </Flex>
 

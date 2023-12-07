@@ -45,6 +45,7 @@ export default function Card({
           src={image || 'aot.jpeg'}
           userSelect="none"
           draggable={false}
+          loading="eager"
         />
         <Flex
           w="100%"
