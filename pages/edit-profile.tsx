@@ -236,7 +236,7 @@ function IndexPage({ data }: { data: Profile }) {
                         as={Checkbox}
                         id="malepref"
                         name="malepref"
-                        colorScheme="orange"
+                        colorScheme="pink"
                         defaultChecked={
                           data.sex_pref === 'A' ||
                           data.sex_pref === 'C' ||
@@ -250,7 +250,7 @@ function IndexPage({ data }: { data: Profile }) {
                         as={Checkbox}
                         id="femalepref"
                         name="femalepref"
-                        colorScheme="orange"
+                        colorScheme="pink"
                         defaultChecked={
                           data.sex_pref === 'B' ||
                           data.sex_pref === 'C' ||
@@ -264,7 +264,7 @@ function IndexPage({ data }: { data: Profile }) {
                         as={Checkbox}
                         id="nonbinarypref"
                         name="nonbinarypref"
-                        colorScheme="orange"
+                        colorScheme="pink"
                         defaultChecked={
                           data.sex_pref === 'D' ||
                           data.sex_pref === 'E' ||
@@ -301,7 +301,6 @@ function IndexPage({ data }: { data: Profile }) {
 }
 
 type Profile = {
-  id: string;
   uuid: string;
   username: string;
   gender: string;
@@ -327,7 +326,6 @@ export const getServerSideProps = async (context: any) => {
       return {
         props: {
           data: {
-            id: response.id,
             uuid: response.uuid,
             username: response.username,
             gender: response.gender,

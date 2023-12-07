@@ -29,7 +29,7 @@ export default function IndexPage() {
           >
             <Heading my={4}> Welcome {data?.user?.name || 'NO Name'}</Heading>
             <Button
-              colorScheme="purple"
+              colorScheme="pink"
               onClick={() => {
                 signOut();
               }}

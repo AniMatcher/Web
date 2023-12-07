@@ -10,8 +10,11 @@ import { SessionProvider } from 'next-auth/react';
 const theme = extendTheme({
   colors: {
     brand: {
-      100: '#FF9F1C',
-      200: '#FFBF69',
+      // 100: '#FF9F1C',
+      // 200: '#FFBF69',
+      100: '#FF91A4',
+      200: '#FF69B4',
+
       800: '#CBF3F0',
       900: '#2EC4B6',
     },

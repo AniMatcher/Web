@@ -326,7 +326,7 @@ export default function App() {
                           as={Checkbox}
                           id="malepref"
                           name="malepref"
-                          colorScheme="orange"
+                          colorScheme="pink"
                         >
                           Male
                         </Field>
@@ -336,7 +336,7 @@ export default function App() {
                           as={Checkbox}
                           id="femalepref"
                           name="femalepref"
-                          colorScheme="orange"
+                          colorScheme="pink"
                         >
                           Female
                         </Field>
@@ -346,7 +346,7 @@ export default function App() {
                           as={Checkbox}
                           id="nonbinarypref"
                           name="nonbinarypref"
-                          colorScheme="orange"
+                          colorScheme="pink"
                         >
                           Nonbinary
                         </Field>
