@@ -19,7 +19,7 @@ import {
   Divider,
 } from '@chakra-ui/react';
 import { Formik } from 'formik';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import { SiAnilist } from 'react-icons/si';
@@ -31,7 +31,14 @@ export default function Page() {
   const toast = useToast();
   const [submitB, SetsubmitB] = useState(false);
   const { push } = useRouter();
+  const searchParams = useSearchParams();
   const { status, data } = useSession();
+
+  const reload = searchParams.get('reload');
+  if (reload === 'true') {
+    const url = window.location.href.toString().split('?')[0];
+    window.location.href = url;
+  }
 
   const signupSchema = Yup.object().shape({
     count: Yup.number().required().positive().integer(),

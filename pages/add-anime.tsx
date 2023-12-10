@@ -152,7 +152,7 @@ export default function Page() {
                         duration: 3000,
                         isClosable: true,
                       });
-                      push('/add-metrics');
+                      push('/add-metrics?reload=true');
                     } else {
                       toast({
                         title: 'ERROR Occurred',
